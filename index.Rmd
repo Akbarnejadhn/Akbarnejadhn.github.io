@@ -11,4 +11,4 @@ output:
 
 ## Adding Images
 
-![](IUSM_Biostatistics.x95734.jpg)
+![](images/IUSM_Biostatistics.x95734.jpg)
