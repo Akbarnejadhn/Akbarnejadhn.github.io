@@ -13,4 +13,8 @@ output:
 
 ![](images/IUSM_Biostatistics.x95734.jpg)
 
-Here is a [link](https://www.linkedin.com/feed/) to my Linkedin account. 
+Here is a [link](https://www.linkedin.com/feed/) to my Linkedin account.
+
+
+You can learn more about me [here](about.html)
+
