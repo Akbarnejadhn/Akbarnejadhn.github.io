@@ -12,3 +12,5 @@ output:
 ## Adding Images
 
 ![](images/IUSM_Biostatistics.x95734.jpg)
+
+Here is a [link](https://www.linkedin.com/feed/) to my Linkedin account. 
