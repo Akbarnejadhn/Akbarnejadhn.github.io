@@ -7,7 +7,7 @@ navbar:
       href: about.html
     - icon: fa-github fa-lg
       href: http://github.com/Akbarnejadhn
-    - icon: linkedin
+    - icon: fa-linkedin
       href: www.linkedin.com/in/hanane-akbarnejad
   left:
     - icon: fa-envelope fa-lg
