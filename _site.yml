@@ -6,7 +6,9 @@ navbar:
     - text: "About"
       href: about.html
     - icon: fa-github fa-lg
-      href: http://github.com/<Akbarnejadhn>/
+      href: http://github.com/Akbarnejadhn
+    - icon: linkedin
+      href: www.linkedin.com/in/hanane-akbarnejad
   left:
     - icon: fa-envelope fa-lg
       href: mailto:<ha2546@cumc.columbia.edu>
