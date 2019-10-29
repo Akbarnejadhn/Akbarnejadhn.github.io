@@ -28,23 +28,24 @@ rest_inspec %>%
   filter(
     boro == "MANHATTAN"
   ) %>% 
-  mutate(cuisine_description = recode(cuisine_description, 
-                                      "Latin" = "Latin (Cuban, Dominican, Puerto Rican, South & Central American)")) #%>% sample_n(5000)
+  mutate(
+    cuisine_description = case_when(cuisine_description == "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" ~ "Latin", TRUE ~ as.character(cuisine_description))
+  )
 
 ```
 
 ```{r}
 
-bar_plot = Manhattan_inspec %>%
+# score of different cuisines in Washington Heights
+Manhattan_inspec %>%
   filter(zipcode == 10032) %>% 
   drop_na(score) %>%
-  mutate(cuisine_description = fct_reorder(cuisine_description, score_mean)) %>%
   group_by(cuisine_description, score) %>%
   summarize(
     score_mean = mean(score)
   ) %>% 
   plot_ly(
     x = ~cuisine_description, y = ~score_mean, type = "bar",
-    color = ~cuisine_description, alpha = 0.5)
+    color = ~cuisine_description)
 ```
 
