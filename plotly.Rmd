@@ -49,7 +49,14 @@ inspec_barplot = inspec_data %>%
   plot_ly(
     x = ~fct_reorder(cuisine_description, score_mean), y = ~score_mean, type = "bar",
     color = ~cuisine_description, colors = "Set2", alpha = .7
-  )
+  ) %>% 
+    layout(
+    xaxis = list(
+      title = "Cuisine Category",
+      autotick = FALSE, tick0 = 1, dtick = 1),
+    yaxis = list(
+      title = "Mean Score"
+    ))
 ```
 This bar plot shows the mean score of different cuisine types in Washington Heights in an increasing order.
 
