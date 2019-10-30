@@ -20,6 +20,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
@@ -254,6 +257,63 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -261,6 +321,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -349,33 +419,64 @@ library(plotly)</code></pre>
 <pre><code>## The following object is masked from &#39;package:graphics&#39;:
 ## 
 ##     layout</code></pre>
-<pre class="r"><code>set.seed(1)
+<div id="data-cleaning" class="section level2">
+<h2>Data Cleaning</h2>
+<pre class="r"><code>data(&quot;rest_inspec&quot;)
 
-data(&quot;rest_inspec&quot;)
-
-Manhattan_inspec =
+inspec_data =
 rest_inspec %&gt;% 
+drop_na(score) %&gt;%
+separate(inspection_date, into = c(&quot;year&quot;, &quot;month-day&quot;), sep = 4) %&gt;% 
   select(
-    boro, critical_flag, cuisine_description, inspection_date, score, zipcode) %&gt;%
-  filter(
-    boro == &quot;MANHATTAN&quot;
-  ) %&gt;% 
-  mutate(cuisine_description = recode(cuisine_description, 
-                                      &quot;Latin&quot; = &quot;Latin (Cuban, Dominican, Puerto Rican, South &amp; Central American)&quot;)) #%&gt;% sample_n(5000)</code></pre>
-<pre class="r"><code>bar_plot = Manhattan_inspec %&gt;%
-  filter(zipcode == 10032) %&gt;% 
-  drop_na(score) %&gt;%
-  # mutate(cuisine_description = fct_reorder(cuisine_description, score_mean)) %&gt;%
-  group_by(cuisine_description, score) %&gt;%
+    boro, critical_flag, cuisine_description, year, score, zipcode) %&gt;%
+  mutate(
+    cuisine_description = case_when(
+      cuisine_description == &quot;Latin (Cuban, Dominican, Puerto Rican, South &amp; Central American)&quot; ~ &quot;Latin&quot;,
+      cuisine_description == &quot;Sandwiches/Salads/Mixed Buffet&quot; ~ &quot;Mixed Buffet&quot;,
+      TRUE ~ as.character(cuisine_description))
+  )</code></pre>
+</div>
+<div id="bar-plot" class="section level2">
+<h2>Bar plot</h2>
+<pre class="r"><code># score of different cuisines in Washington Heights
+inspec_barplot = inspec_data %&gt;%
+  filter(boro == &quot;MANHATTAN&quot; &amp; zipcode == 10032) %&gt;% 
+  group_by(cuisine_description) %&gt;%
   summarize(
     score_mean = mean(score)
   ) %&gt;% 
   plot_ly(
-    x = ~cuisine_description, y = ~score_mean, type = &quot;bar&quot;,
-    color = ~cuisine_description, alpha = 0.5)</code></pre>
+    x = ~fct_reorder(cuisine_description, score_mean), y = ~score_mean, type = &quot;bar&quot;,
+    color = ~cuisine_description, colors = &quot;Set2&quot;, alpha = .7
+  )</code></pre>
+</div>
+<div id="line-plot" class="section level2">
+<h2>Line Plot</h2>
+<pre class="r"><code># number of critical flags in each boro through years
+inspec_lineplot = inspec_data %&gt;% 
+  filter(critical_flag == &quot;Critical&quot; &amp; boro != &quot;Missing&quot;) %&gt;% 
+  group_by(boro, year) %&gt;% 
+  summarize(n = n()) %&gt;% 
+  plot_ly(
+    y = ~n, x = ~year, type = &quot;scatter&quot;, mode = &quot;lines&quot;,
+    color = ~boro, colors = &quot;Set2&quot;
+  )</code></pre>
+</div>
+<div id="box-plot" class="section level2">
+<h2>Box Plot</h2>
+<pre class="r"><code># distribution of score for American food in different boroughs
+inspec_boxplot = inspec_data %&gt;%
+  filter(year == 2017 &amp; cuisine_description %in% c(&quot;American&quot;, &quot;Chinese&quot;) &amp; boro != &quot;Missing&quot;) %&gt;% 
+  group_by (boro, cuisine_description) %&gt;% 
+  plot_ly(
+    color= ~boro, y= ~score, type = &quot;box&quot;, colors = &quot;Set2&quot;, alpha = .7
+  )</code></pre>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -413,6 +514,32 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

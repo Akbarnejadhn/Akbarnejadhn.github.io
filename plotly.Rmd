@@ -3,8 +3,8 @@ title: "Plotly"
 output: 
   html_document:
     code_fold: hide
-    toc: false
-    toc_float: false
+    toc: true
+    toc_float: true
 ---
 
 ```{r}
@@ -15,37 +15,64 @@ library(p8105.datasets)
 library(plotly)
 ```
 
-
+## Data Cleaning
 ```{r}
-set.seed(1)
 
 data("rest_inspec")
 
-Manhattan_inspec =
+inspec_data =
 rest_inspec %>% 
+drop_na(score) %>%
+separate(inspection_date, into = c("year", "month-day"), sep = 4) %>% 
   select(
-    boro, critical_flag, cuisine_description, inspection_date, score, zipcode) %>%
-  filter(
-    boro == "MANHATTAN"
-  ) %>% 
+    boro, critical_flag, cuisine_description, year, score, zipcode) %>%
   mutate(
-    cuisine_description = case_when(cuisine_description == "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" ~ "Latin", TRUE ~ as.character(cuisine_description))
+    cuisine_description = case_when(
+      cuisine_description == "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" ~ "Latin",
+      cuisine_description == "Sandwiches/Salads/Mixed Buffet" ~ "Mixed Buffet",
+      TRUE ~ as.character(cuisine_description))
   )
-
 ```
 
+## Bar plot
 ```{r}
 
 # score of different cuisines in Washington Heights
-Manhattan_inspec %>%
-  filter(zipcode == 10032) %>% 
-  drop_na(score) %>%
-  group_by(cuisine_description, score) %>%
+inspec_barplot = inspec_data %>%
+  filter(boro == "MANHATTAN" & zipcode == 10032) %>% 
+  group_by(cuisine_description) %>%
   summarize(
     score_mean = mean(score)
   ) %>% 
   plot_ly(
-    x = ~cuisine_description, y = ~score_mean, type = "bar",
-    color = ~cuisine_description)
+    x = ~fct_reorder(cuisine_description, score_mean), y = ~score_mean, type = "bar",
+    color = ~cuisine_description, colors = "Set2", alpha = .7
+  )
+```
+
+## Line Plot
+```{r}
+
+# number of critical flags in each boro through years
+inspec_lineplot = inspec_data %>% 
+  filter(critical_flag == "Critical" & boro != "Missing") %>% 
+  group_by(boro, year) %>% 
+  summarize(n = n()) %>% 
+  plot_ly(
+    y = ~n, x = ~year, type = "scatter", mode = "lines",
+    color = ~boro, colors = "Set2"
+  )
+```
+
+## Box Plot
+```{r}
+
+# distribution of score for American food in different boroughs
+inspec_boxplot = inspec_data %>%
+  filter(year == 2017 & cuisine_description %in% c("American", "Chinese") & boro != "Missing") %>% 
+  group_by (boro, cuisine_description) %>% 
+  plot_ly(
+    color= ~boro, y= ~score, type = "box", colors = "Set2", alpha = .7
+  )
 ```
 
