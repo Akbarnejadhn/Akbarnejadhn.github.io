@@ -14,7 +14,11 @@ library(viridis)
 library(p8105.datasets)
 library(plotly)
 ```
-This is an example of how we can use Plotly and dashboard to share our data analysis results interactively. I have worked with _rest_inspec_ dataset which contains resaurant inspection reports of some reastaurants in New York. This dataset contains information such as date, zipcode, food categories, boroughs, etc.
+This page presents the code behind the plots provided in [Dashbord page](test.html).
+
+This is an example of how we can use Plotly and Flexdashboards to share our data analysis results interactively. I have worked with _rest_inspec_ dataset which contains resaurant inspection reports of some reastaurants in New York. This dataset contains information such as date, zipcode, food categories, boroughs, etc.
+
+_rest_inspec_ is a dataset from _p8105.datasets_, and you can find more information about this dataset [here](https://p8105.com/dataset_restaurant_inspections.html).
 
 ## Data Cleaning
 ```{r}
