@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Restaurant Inspection Plots"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -36,11 +36,10 @@ separate(inspection_date, into = c("year", "month-day"), sep = 4) %>%
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+### Mean Score of Cuisine Types in Washington Heights
 
 ```{r}
 
-# score of different cuisines in Washington Heights
 inspec_data %>%
   filter(boro == "MANHATTAN" & zipcode == 10032) %>% 
   group_by(cuisine_description) %>%
@@ -50,17 +49,23 @@ inspec_data %>%
   plot_ly(
     x = ~fct_reorder(cuisine_description, score_mean), y = ~score_mean, type = "bar",
     color = ~cuisine_description, colors = "Set2", alpha = .7
-  )
+  ) %>% 
+    layout(
+    xaxis = list(
+      title = "Cuisine Category",
+      autotick = FALSE, tick0 = 1, dtick = 1),
+    yaxis = list(
+      title = "Mean Score"
+    ))
 ```
 
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### Number of Critical Flags in Boroughs Over Time
 
 ```{r}
 
-# number of critical flags in each boro through years
 inspec_data %>% 
   filter(critical_flag == "Critical" & boro != "Missing") %>% 
   group_by(boro, year) %>% 
@@ -68,18 +73,32 @@ inspec_data %>%
   plot_ly(
     y = ~n, x = ~year, type = "scatter", mode = "lines",
     color = ~boro, colors = "Set2"
-  )
+  ) %>% 
+  layout(
+    xaxis = list(
+      title = "Year",
+      autotick = FALSE, tick0 = 1, dtick = 1),
+    yaxis = list(
+      title = "Number of Critical Flags"
+    ))
 ```
 
-### Chart C
+### American Food Score distribution in Different Boroughs
 
 ```{r}
 
-# distribution of score for American food in different boroughs
 inspec_data %>%
-  filter(year == 2017 & cuisine_description %in% c("American", "Chinese") & boro != "Missing") %>% 
+  filter(year == 2017 & cuisine_description == "American" & boro != "Missing") %>% 
   group_by (boro, cuisine_description) %>% 
   plot_ly(
     color= ~boro, y= ~score, type = "box", colors = "Set2", alpha = .7
-  )
+  ) %>%
+  layout(
+    xaxis = list(
+      showticklabels = FALSE,
+      title = "Borough",
+      autotick = FALSE, tick0 = 1, dtick = 1),
+    yaxis = list(
+      title = "Score"
+    ))
 ```

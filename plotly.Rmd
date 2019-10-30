@@ -7,13 +7,14 @@ output:
     toc_float: true
 ---
 
-```{r}
+```{r include=FALSE}
 
 library(tidyverse)
 library(viridis)
 library(p8105.datasets)
 library(plotly)
 ```
+This is an example of how we can use Plotly and dashboard to share our data analysis results interactively. I have worked with _rest_inspec_ dataset which contains resaurant inspection reports of some reastaurants in New York. This dataset contains information such as date, zipcode, food categories, boroughs, etc.
 
 ## Data Cleaning
 ```{r}
@@ -33,8 +34,9 @@ separate(inspection_date, into = c("year", "month-day"), sep = 4) %>%
       TRUE ~ as.character(cuisine_description))
   )
 ```
+In this part, I did some data tidying to my dataset. To do so, I have changed date to year (which I care about), selected some of the variables to work with (since the dataset is big and heavy), and renamed some of cuisine descriptions which were too long to be used in plots.
 
-## Bar plot
+## Plot #1 (Bar-plot)
 ```{r}
 
 # score of different cuisines in Washington Heights
@@ -49,8 +51,9 @@ inspec_barplot = inspec_data %>%
     color = ~cuisine_description, colors = "Set2", alpha = .7
   )
 ```
+This bar plot shows the mean score of different cuisine types in Washington Heights in an increasing order.
 
-## Line Plot
+## Plot #2 (Line-plot) 
 ```{r}
 
 # number of critical flags in each boro through years
@@ -61,18 +64,34 @@ inspec_lineplot = inspec_data %>%
   plot_ly(
     y = ~n, x = ~year, type = "scatter", mode = "lines",
     color = ~boro, colors = "Set2"
-  )
+  ) %>% 
+  layout(
+    xaxis = list(
+      title = "Year",
+      autotick = FALSE, tick0 = 1, dtick = 1),
+    yaxis = list(
+      title = "Number of Critical Flags"
+    ))
 ```
+This line plot shows the number of critical flags in each borough over years.
 
-## Box Plot
+## Plot #3 (Box-plot)
 ```{r}
 
 # distribution of score for American food in different boroughs
 inspec_boxplot = inspec_data %>%
-  filter(year == 2017 & cuisine_description %in% c("American", "Chinese") & boro != "Missing") %>% 
+  filter(year == 2017 & cuisine_description == "American" & boro != "Missing") %>% 
   group_by (boro, cuisine_description) %>% 
   plot_ly(
     color= ~boro, y= ~score, type = "box", colors = "Set2", alpha = .7
-  )
+  ) %>%
+  layout(
+    xaxis = list(
+      showticklabels = FALSE,
+      title = "Borough",
+      autotick = FALSE, tick0 = 1, dtick = 1),
+    yaxis = list(
+      title = "Score"
+    ))
 ```
-
+This boxplot shows the distribution of Score for American food in different boroughs.

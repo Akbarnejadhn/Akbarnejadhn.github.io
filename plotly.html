@@ -369,7 +369,7 @@ div.tocify {
       <a href="plotly.html">Plotly</a>
     </li>
     <li>
-      <a href="test.html">test</a>
+      <a href="test.html">Dashboard</a>
     </li>
   </ul>
 </li>
@@ -431,6 +431,7 @@ library(plotly)</code></pre>
 <pre><code>## The following object is masked from &#39;package:graphics&#39;:
 ## 
 ##     layout</code></pre>
+<p>This is an example of how we can use Plotly and dashboard to share our data analysis results interactively. I have worked with <em>rest_inspec</em> dataset which contains resaurant inspection results of some reastaurants in New York. This dataset contains information such as date, zipcode, food categories, boroughs, etc.</p>
 <div id="data-cleaning" class="section level2">
 <h2>Data Cleaning</h2>
 <pre class="r"><code>data(&quot;rest_inspec&quot;)
@@ -447,9 +448,10 @@ separate(inspection_date, into = c(&quot;year&quot;, &quot;month-day&quot;), sep
       cuisine_description == &quot;Sandwiches/Salads/Mixed Buffet&quot; ~ &quot;Mixed Buffet&quot;,
       TRUE ~ as.character(cuisine_description))
   )</code></pre>
+<p>In this part, I did some data tidying to my dataset. To do so, I have changed date to year (which I care about), selected some of the variables to work with (since the dataset is big and heavy), and renamed some of cuisine descriptions which were too long to be used in plots.</p>
 </div>
-<div id="bar-plot" class="section level2">
-<h2>Bar plot</h2>
+<div id="mean-score-of-cuisine-types-in-washington-heights" class="section level2">
+<h2>Mean Score of Cuisine Types in Washington Heights</h2>
 <pre class="r"><code># score of different cuisines in Washington Heights
 inspec_barplot = inspec_data %&gt;%
   filter(boro == &quot;MANHATTAN&quot; &amp; zipcode == 10032) %&gt;% 
@@ -461,9 +463,10 @@ inspec_barplot = inspec_data %&gt;%
     x = ~fct_reorder(cuisine_description, score_mean), y = ~score_mean, type = &quot;bar&quot;,
     color = ~cuisine_description, colors = &quot;Set2&quot;, alpha = .7
   )</code></pre>
+<p>In this part, I created a bar plot to show the mean score of different cuisine types in Washington Heights, and showed the result in an increasing order.</p>
 </div>
-<div id="line-plot" class="section level2">
-<h2>Line Plot</h2>
+<div id="number-of-critical-flags-in-boroughs-over-time" class="section level2">
+<h2>Number of Critical Flags in Boroughs Over Time</h2>
 <pre class="r"><code># number of critical flags in each boro through years
 inspec_lineplot = inspec_data %&gt;% 
   filter(critical_flag == &quot;Critical&quot; &amp; boro != &quot;Missing&quot;) %&gt;% 
@@ -474,8 +477,8 @@ inspec_lineplot = inspec_data %&gt;%
     color = ~boro, colors = &quot;Set2&quot;
   )</code></pre>
 </div>
-<div id="box-plot" class="section level2">
-<h2>Box Plot</h2>
+<div id="american-food-score-distribution-in-different-boroughs" class="section level2">
+<h2>American Food Score distribution in Different Boroughs</h2>
 <pre class="r"><code># distribution of score for American food in different boroughs
 inspec_boxplot = inspec_data %&gt;%
   filter(year == 2017 &amp; cuisine_description %in% c(&quot;American&quot;, &quot;Chinese&quot;) &amp; boro != &quot;Missing&quot;) %&gt;% 
