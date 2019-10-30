@@ -1,0 +1,85 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(viridis)
+library(p8105.datasets)
+library(plotly)
+
+```
+
+```{r}
+
+data("rest_inspec")
+
+inspec_data =
+rest_inspec %>% 
+drop_na(score) %>%
+separate(inspection_date, into = c("year", "month-day"), sep = 4) %>% 
+  select(
+    boro, critical_flag, cuisine_description, year, score, zipcode) %>%
+  mutate(
+    cuisine_description = case_when(
+      cuisine_description == "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" ~ "Latin",
+      cuisine_description == "Sandwiches/Salads/Mixed Buffet" ~ "Mixed Buffet",
+      TRUE ~ as.character(cuisine_description))
+  )
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+# score of different cuisines in Washington Heights
+inspec_data %>%
+  filter(boro == "MANHATTAN" & zipcode == 10032) %>% 
+  group_by(cuisine_description) %>%
+  summarize(
+    score_mean = mean(score)
+  ) %>% 
+  plot_ly(
+    x = ~fct_reorder(cuisine_description, score_mean), y = ~score_mean, type = "bar",
+    color = ~cuisine_description, colors = "Set2", alpha = .7
+  )
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+# number of critical flags in each boro through years
+inspec_data %>% 
+  filter(critical_flag == "Critical" & boro != "Missing") %>% 
+  group_by(boro, year) %>% 
+  summarize(n = n()) %>% 
+  plot_ly(
+    y = ~n, x = ~year, type = "scatter", mode = "lines",
+    color = ~boro, colors = "Set2"
+  )
+```
+
+### Chart C
+
+```{r}
+
+# distribution of score for American food in different boroughs
+inspec_data %>%
+  filter(year == 2017 & cuisine_description %in% c("American", "Chinese") & boro != "Missing") %>% 
+  group_by (boro, cuisine_description) %>% 
+  plot_ly(
+    color= ~boro, y= ~score, type = "box", colors = "Set2", alpha = .7
+  )
+```
