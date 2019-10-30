@@ -2,13 +2,79 @@
 title: "About Me"
 output: 
   html_document:
-    toc: false
-    toc_float: false
+    toc: true
+    toc_float: true
 ---
 
+## Education
+
+- **Columbia University, Mailman School of Public Health** (New York, New York) - Expected December 2020
+
+Master of Science (MS) in Biostatistics - theory and Methods Track
+
+- **University of Washington** (Seattle, WA) - March 2017 to Dec 2018
+
+Part-time Non-matriculated Student
+
+Acdemic Courses in Math and Statistics
+
+- **University of Tehran** (Tehran, Iran) - Feb 217
+
+Master of Science (MS) in Nanobiotechnology
+
+- **University of Tehran** (Tehran, Iran) - Feb 2013
+
+Bachelor of Science (BS) in Cell and Molecular Biology
 
 
-# test
-My name is Hana Akbarnejad and I am First year Master of Biostatistics at Columbia University
+## Skills
+
+- **Statistical packages:** SAS, SPSS, Minitab, GraphPad Prism
+
+-	**Programming languages:** R, Java, C++
+
+- **Relational Data base Design, Git**
+
+- **General:** Microsoft Office (Word, Excel, PowerPoint), LaTex, Adobe Illustrator
+
+- **Bioinformatics tools:** Oligo Primer Analysis, Gene Runner
+
+- **Biophysical packages and Molecular, Cellular, Biochemical, Biophysical lab skills**
+
+- **Languages:** Native Farsi, Fluent in English
+
+
+## Related Courseworks
+
+Data Science (R programming Language)
+
+Introduction to Biostatistical Methods
+
+Engineering Probability and Statistics
+
+Probability and Mathematical Statistics
+
+Linear Algebra
+
+Differential Equations
+
+Linear Analysis
+
+Applied Biostatistics
+
+Design of Experiments and Statistical Analysis of Data (covered SAS)
+
+C++ Programming
+
+Java Programming
+
+Biostatistics Lab. (covered SPSS)
+
+Calculus I, II, and III
+
+Various courses in Genetics, Bioinformatics, Cell and Molecular Biology, Microbiology, Immunology, Biochemistry, Biophysics, and Nanotechnology
+
+
+
 
 

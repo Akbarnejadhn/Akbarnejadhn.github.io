@@ -79,7 +79,7 @@ inspec_data %>%
       title = "Year",
       autotick = FALSE, tick0 = 1, dtick = 1),
     yaxis = list(
-      title = "Number of Critical Flags"
+      title = "Critical Flags Count"
     ))
 ```
 

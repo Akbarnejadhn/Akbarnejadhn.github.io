@@ -20,6 +20,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -250,6 +253,63 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -257,6 +317,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -325,13 +395,60 @@ $(document).ready(function () {
 </div>
 
 
-<div id="test" class="section level1">
-<h1>test</h1>
-<p>My name is Hana Akbarnejad and I am First year Master of Biostatistics at Columbia University</p>
+<div id="education" class="section level2">
+<h2>Education</h2>
+<ul>
+<li><strong>Columbia University, Mailman School of Public Health</strong> (New York, New York) - Expected December 2020</li>
+</ul>
+<p>Master of Science (MS) in Biostatistics - theory and Methods Track</p>
+<ul>
+<li><strong>University of Washington</strong> (Seattle, WA) - March 2017 to Dec 2018</li>
+</ul>
+<p>Part-time Non-matriculated Student</p>
+<p>Acdemic Courses in Math and Statistics</p>
+<ul>
+<li><strong>University of Tehran</strong> (Tehran, Iran) - Feb 217</li>
+</ul>
+<p>Master of Science (MS) in Nanobiotechnology</p>
+<ul>
+<li><strong>University of Tehran</strong> (Tehran, Iran) - Feb 2013</li>
+</ul>
+<p>Bachelor of Science (BS) in Cell and Molecular Biology</p>
+</div>
+<div id="skills" class="section level2">
+<h2>Skills</h2>
+<ul>
+<li><p><strong>Statistical packages:</strong> SAS, SPSS, Minitab, GraphPad Prism</p></li>
+<li><p><strong>Programming languages:</strong> R, Java, C++</p></li>
+<li><p><strong>Relational Data base Design, Git</strong></p></li>
+<li><p><strong>General:</strong> Microsoft Office (Word, Excel, PowerPoint), LaTex, Adobe Illustrator</p></li>
+<li><p><strong>Bioinformatics tools:</strong> Oligo Primer Analysis, Gene Runner</p></li>
+<li><p><strong>Biophysical packages and Molecular, Cellular, Biochemical, Biophysical lab skills</strong></p></li>
+<li><p><strong>Languages:</strong> Native Farsi, Fluent in English</p></li>
+</ul>
+</div>
+<div id="related-courseworks" class="section level2">
+<h2>Related Courseworks</h2>
+<p>Data Science (R programming Language)</p>
+<p>Introduction to Biostatistical Methods</p>
+<p>Engineering Probability and Statistics</p>
+<p>Probability and Mathematical Statistics</p>
+<p>Linear Algebra</p>
+<p>Differential Equations</p>
+<p>Linear Analysis</p>
+<p>Applied Biostatistics</p>
+<p>Design of Experiments and Statistical Analysis of Data (covered SAS)</p>
+<p>C++ Programming</p>
+<p>Java Programming</p>
+<p>Biostatistics Lab. (covered SPSS)</p>
+<p>Calculus I, II, and III</p>
+<p>Various courses in Genetics, Bioinformatics, Cell and Molecular Biology, Microbiology, Immunology, Biochemistry, Biophysics, and Nanotechnology</p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -364,6 +481,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
