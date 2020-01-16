@@ -417,7 +417,17 @@ div.tocify {
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>This project examines if there is association between External Occipital Protuberance (EOP) and a combination of age, sex, and degree of Forward Head Protraction (FHP).</p>
+<p>This project focuse on <a href="s41598-018-21625-1.pdf">this article</a> published by <em>Nature Scientific Reports</em>. The original research describes the relationship between posture and “enlarged protuberances”, especially among younger subjects. This was later reported in the <a href="https://www.washingtonpost.com/nation/2019/06/20/horns-are-growing-young-peoples-skulls-phone-use-is-blame-research-suggests/">popular press</a> in articles drawing the conclusion that phone usage was leading to “horns” growing in the back of millenials’ heads. <a href="https://www.nytimes.com/2019/06/20/health/horns-cellphones-bones.html">Later articles</a> were more skeptical, and a limited <a href="https://www.nature.com/articles/s41598-019-49153-6">author correction</a> was published in Nature.</p>
+<p>The goals of the project is to revisit the data that has been used in this research (data that accompanied the author correction), and do the following:</p>
+<ul>
+<li><p>Look at some distributions of subjects</p></li>
+<li><p>Illustrate issues in the available data</p></li>
+<li><p>Redo the flawed analysis in the research paper</p></li>
+<li><p>Adding some visualization that helps answering the scientific question of interest</p></li>
+<li><p>Reproducing reported results and find possible inconsistensies</p></li>
+<li><p>Discussing the findings</p></li>
+</ul>
+<p><strong>Data Cleaning</strong></p>
 <pre class="r"><code>eop_data = read_excel(&quot;mtp_data/p8105_mtp_data.xlsx&quot;, skip = 7) %&gt;% 
   janitor::clean_names() %&gt;% 
   select(sex, age_group, age, eop_size_group = eop_size, eop_size = eop_size_mm,
@@ -434,18 +444,7 @@ div.tocify {
                                   &#39;60+&#39;, &#39;60+&#39;), ordered = TRUE),
     eop_size_group = factor(eop_size_group, levels = c(&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;),ordered = TRUE),
     fhp_category = factor(fhp_category, levels = c(&#39;0&#39;, &#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;, &#39;5&#39;, &#39;6&#39;, &#39;7&#39;), ordered = TRUE)
-  )
-
-head(eop_data, 3)</code></pre>
-<pre><code>## # A tibble: 3 x 9
-##   sex   age_group   age eop_size_group eop_size eop_visibility_~ eop_shape
-##   &lt;fct&gt; &lt;ord&gt;     &lt;dbl&gt; &lt;ord&gt;             &lt;dbl&gt; &lt;ord&gt;            &lt;fct&gt;    
-## 1 1     18-30        18 2                  14.8 2                3        
-## 2 1     18-30        26 3                  17.1 2                3        
-## 3 0     18-30        22 0                   0   1                &lt;NA&gt;     
-## # ... with 2 more variables: fhp_category &lt;ord&gt;, fhp_size &lt;dbl&gt;</code></pre>
-<p><strong>Data</strong></p>
-<p>Skipped variables information header, cleaned names, reordered/renamed some columns. Replaced eop_size ’NA’s with 0(actual value). created factor variables for categoricals, ordered them if their order matters. Omitted age_group=1 because there were no pattern(aged 17,45) and was not included in study. Combined age_groups 6,7,8 in 60+ as how treated in analyses and header. Recoded to more descriptive age_groups.</p>
+  )</code></pre>
 <p>Resulting dataset has 9 variables of 1219 participants, with key variables age(age_group), sex, fhp_category, and eop_size(eop_size_category).There were 613 women and 606 men. Sex distribution across age_groups:</p>
 <pre class="r"><code>  age_sex_table = eop_data %&gt;% 
    group_by(age_group, sex) %&gt;% 
@@ -492,9 +491,7 @@ head(eop_data, 3)</code></pre>
   filter(eop_size == 5 | eop_size == 10 | eop_size == 15 | eop_size == 20 | eop_size == 25) %&gt;% 
   summarize(count = n()) %&gt;% 
   knitr::kable()</code></pre>
-<p>2 people aged 17 and 45 in age_group=1 which had not been defined.</p>
-<p>Participants age range=18, 88(reported:18,86).</p>
-<p>Table shows overlaps in continuous-categorical coversion. In eop_category cut-offs: Same eop_size(5) is associated with different size_categories(0,1) and visibility_groups(1,2). One mistaken eop size group(14.6) noted (shows as ‘NA’ since not among defined factor levels). We should have 8 FHP categories(0-7) but we have9,because of mistaken value(30.8).</p>
+<p>2 people aged 17 and 45 in age_group=1 which had not been defined. Participants age range=18, 88(reported:18,86). Table shows overlaps in continuous-categorical coversion. In eop_category cut-offs: Same eop_size(5) is associated with different size_categories(0,1) and visibility_groups(1,2). One mistaken eop size group(14.6) noted (shows as ‘NA’ since not among defined factor levels). We should have 8 FHP categories(0-7) but we have9,because of mistaken value(30.8).</p>
 <table>
 <thead>
 <tr class="header">
@@ -556,6 +553,7 @@ head(eop_data, 3)</code></pre>
 </div>
 <div id="visualization" class="section level2">
 <h2>Visualization</h2>
+<p>In the original scientific report, Figures 3 and 4 show data or derived quantities. Both are flawed. Figure 3 shows only the mean and standard deviation for FHP, but does not show the distribution of the underlying data. Figure 4 shows the number of participants in each age and sex group who have an enlarged EOP (based on categorical EOP Size – groups 0 and 1 vs groups 2, 3, 4, and 5). However, the number of participants in each age and sex group was controlled by the researchers, so the number with enlarged EOP in each group is not as informative as the rate of enlarged EOP in each group. I Created a two-panel figure that contains improved versions of both of these:</p>
 <pre class="r"><code># Boxplot for fhp distribution
 fhp_age_dist = eop_data %&gt;%
   ggplot(aes(x = age_group, y = fhp_size)) + 
@@ -601,8 +599,10 @@ eeop_rate_plot = eop_data %&gt;%
 
 # joining plots using patchwork
 (fhp_age_dist + eeop_rate_plot)</code></pre>
-<p><img src="p8105_mtp_ha2546_files/figure-html/2panel_plot-1.png" width="90%" /></p>
-<p>FHP_size Boxplot: In higher age_groups fhp_size is more spread (higher IQR), and increased in median value by sex mostly. Also, increased difference of median fhp_size between men and women. Higher FHP_size median and IQR for men and in age60+. We cannot see as strong effect on other groups. EEOP_rate Plot: There is high eeop_rate among 18-30, but plots get flatter after that(compared to count plot). This shows that there is higher chance of eeop in this group compared to others, cannot generalize about other groups.</p>
+<p><img src="p8105_mtp_ha2546_files/figure-html/2panel_plot-1.png" width="672" /></p>
+<p>In higher age_groups fhp_size is more spread (higher IQR), and increased in median value by sex mostly. Also, increased difference of median fhp_size between men and women. Higher FHP_size median and IQR for men and in age60+. We cannot see as strong effect on other groups.</p>
+<p>There is high eeop_rate among 18-30, but plots get flatter after that(compared to count plot). This shows that there is higher chance of eeop in this group compared to others, cannot generalize about other groups.</p>
+<p>Although the authors are interested in how FHP size, age, and sex affect EOP size, no figure contains each of these in the research paper. I created a 2 x 5 collection of panels, which shows the association between FHP size and EOP size in each age and sex group:</p>
 <pre class="r"><code>collection_plot = eop_data %&gt;%
   ggplot(aes(x = fhp_size, y = eop_size, color = sex)) +
   geom_point() +
@@ -618,11 +618,16 @@ eeop_rate_plot = eop_data %&gt;%
   theme(legend.position = &quot;None&quot;)
 
 collection_plot  </code></pre>
-<p><img src="p8105_mtp_ha2546_files/figure-html/2x5_plot-1.png" width="90%" /></p>
+<p><img src="p8105_mtp_ha2546_files/figure-html/2x5_plot-1.png" width="672" /></p>
 <p>Generally, we can observe dispersed distribution(most disperesed in men 18-31 and 60+), and there is no specific trend for how eop_size changes with increase of FHP_size in different groups. With performing complementary statistical tests, we might conclude there is no association between these variables. However, according to the article, increase in fhp_size is linked to increase in eop_size.</p>
 </div>
 <div id="reproducing-reported-results" class="section level2">
 <h2>Reproducing Reported Results</h2>
+<p>In this part, I tried to see…</p>
+<p>If the authors’ stated sample sizes in each age group consistent with the data available</p>
+<p>I the reported mean and standard deviations for FHP size consistent with the data you have available?</p>
+<p>The authors find “the prevalence of EEOP to be 33% of the study population”. Is the finding consistent with the data available?</p>
+<p>FHP is noted to be more common in older subjects, with “FHP &gt;40 mm observed frequently (34.5%) in the over 60s cases”. Are the broad trends and specific values consistent with data?</p>
 <pre class="r"><code>sample_size = eop_data %&gt;%
   group_by(age_group) %&gt;%
   summarize(sample_size = n()) %&gt;%
@@ -700,54 +705,12 @@ fhp_n = eop_data %&gt;%
   )
 
 high_fhp_plot</code></pre>
-<p><img src="p8105_mtp_ha2546_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
+<p><img src="p8105_mtp_ha2546_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
-<p>Authors conclude high Eop in result of age and fhp combination. However, it is not a genral trend in data. Also, 18-30 age group have high eop but there is no evidence where it comes from(young people visiting clinic might have genetic problems, etc.). Also, it doesn’t seem that people with higher fhp tend to have higher eop. Statistical analysis of research only relies on P-value which is not reliable without Confidence intervals. Analysis and sample size were not reported accurately(rounded), plots cherry-picked to justify esults. Source population were more prone to outcome(people visited clinic): Conslusions are only generalizable to the cohort and not to general population.</p>
-<p>Data on complaint of patients visited clinic is needed. Data needed on time spent on devices, their occupation, their physical activity and diet which affects skeletal health. Should have controlled study for genetic variability(race/ethnicity). Results say nothing about causal link between cell-phone and horn! Can just discuss “possible” association between poor posture and EEOP, if all required information provided and controlled for confounders.</p>
-<pre class="r"><code>wordcountaddin::text_stats(&quot;p8105_mtp_ha2546.Rmd&quot;)</code></pre>
-<pre><code>## For information on available language packages for &#39;koRpus&#39;, run
-## 
-##   available.koRpus.lang()
-## 
-## and see ?install.koRpus.lang()</code></pre>
-<pre><code>## 
-## Attaching package: &#39;koRpus&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:readr&#39;:
-## 
-##     tokenize</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Method</th>
-<th align="left">koRpus</th>
-<th align="left">stringi</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Word count</td>
-<td align="left">513</td>
-<td align="left">470</td>
-</tr>
-<tr class="even">
-<td align="left">Character count</td>
-<td align="left">3092</td>
-<td align="left">3115</td>
-</tr>
-<tr class="odd">
-<td align="left">Sentence count</td>
-<td align="left">53</td>
-<td align="left">Not available</td>
-</tr>
-<tr class="even">
-<td align="left">Reading time</td>
-<td align="left">2.6 minutes</td>
-<td align="left">2.4 minutes</td>
-</tr>
-</tbody>
-</table>
+<p>Authors conclude high Eop in result of age and fhp combination. However, it is not a general trend in data. Also, 18-30 age group have high eop but there is no evidence where it comes from (another possible explanation can be that young people who were visiting clinic might have genetic problems, have had an accident, etc.). Also, it doesn’t seem that people with higher fhp tend to have higher eop. Statistical analysis of research only relies on P-value which is not reliable without Confidence intervals. Analysis and sample size were not reported accurately and have been rounded, and in general, plots seem to be cherry-picked to justify the desired result. Source population were more prone to outcome (people visited clinic): Conslusions are only generalizable to the cohort and not to general population.</p>
+<p>Other data is needed to address this hypothesis. For example, data on the reson that patients visited clinic is needed. Also, we need to have data on the approximate time people spent on electric devices and cellphone are needed. It is also important to know their occupation, their physical activity and diet which affects skeletal health. Also, researchers should have controlled study for genetic variability(race/ethnicity). Results say nothing about causal link between cell-phone and horn growth! Can just discuss “possible” association between poor posture and EEOP, if all required information provided and controlled for confounders.</p>
 </div>
 
 
