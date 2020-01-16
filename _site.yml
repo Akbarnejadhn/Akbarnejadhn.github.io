@@ -13,6 +13,8 @@ navbar:
           href: plotly.html
         - text: "Dashboard"
           href: test.html
+      - text: "Posture and Horns!"
+        href: p8105_mtp_ha2546.html
     - icon: fa-github fa-lg
       href: http://github.com/Akbarnejadhn
     - icon: fa-linkedin
