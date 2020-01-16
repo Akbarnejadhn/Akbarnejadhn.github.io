@@ -5,16 +5,18 @@ navbar:
   right:
     - text: "About Me"
       href: about.html
-    - text: "Plots"
+    - text: "Sample Projects"
       menu:
-      - text: "Plotly"
-        href: plotly.html
-      - text: "Dashboard"
-        href: test.html
+      - text: "NY Restaurants"
+        menu:
+        - text: "Plotly"
+          href: plotly.html
+        - text: "Dashboard"
+          href: test.html
     - icon: fa-github fa-lg
       href: http://github.com/Akbarnejadhn
     - icon: fa-linkedin
-      href: http://linkedin.com/in/hanane-akbarnejad
+      href: http://linkedin.com/in/hakbarnejad
   left:
     - icon: fa-envelope fa-lg
       href: mailto:<ha2546@cumc.columbia.edu>
