@@ -1,8 +1,10 @@
 ---
-title: "p8105_mtp_ha2546"
-author: "Hana Akbarnejad"
-date: "10/25/2019"
-output: github_document
+title: "Posture and Horns!"
+output: 
+  html_document:
+    code_fold: hide
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
