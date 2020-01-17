@@ -4,7 +4,11 @@ navbar:
   title: "Home"
   right:
     - text: "About Me"
-      href: about.html
+      menu:
+      - text: "Resume"
+        href: Akbarnejad_resume.pdf
+      - text: "More"
+        href: about.html
     - text: "Sample Projects"
       menu:
       - text: "Posture and Horns!"

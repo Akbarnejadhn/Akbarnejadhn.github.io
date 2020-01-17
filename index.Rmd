@@ -6,20 +6,24 @@ output:
     toc_float: false
 ---
 
-
 **Graduate Student in Biostatistics**
 
 **Columbia University Mailman School of Public Health**
 
-![](images/IUSM_Biostatistics.x95734.jpg)
+<p align="center">
+<br><img src="hana.jpg" alt="hana" style="width:25%; border:10px solid"><br>
+</p>
 
 
 
+**Welcome and thanks for visiting my website!**
 
-### About
 
-I recieved a BS in Cell and Molecular Biology from [University of Tehran](https://ut.ac.ir/en), Iran, and a MS in Nanobiotechnology from the same university in 2017. My thesis project was focused on nanotoxicity of gold nano particles and how these widely used particles can affect stucture and function of key enzymes of human nervous systme. My research included both lab work and using Molecular Dynamic simulation techniques for modeling protein structure. During my lab work I performed a lot of statistical analysis to analyze my results and that was when I decided to pursue a career in Biostatistics and integrate my knowledge in biological science with statistical and computational skills. You can learn more about me [here](about.html).
+I am a first year MS student in Biostatistics with focus on Theory and Methods at Columbia University Mailman School of Public Health. I recieved a BS in Cell and Molecular Biology and MS in Nabobiotechnology from [University of Tehran](https://ut.ac.ir/en), in Tehran, Iran. I am ineterested in data analysis and handling, particularly statistical analysis including descriptive statistics, exploratory data analysis (EDA), and confirmatory data analysis (CDA) and statistical models. My ultimate goal is to have a role in improving lives through finding innovative solutions to solve problems in the public health sphere either by testing and developing new methods or evaluating and modifying available services.
 
+Please feel free to learn more about my experieneces and interests, and find my resume in the [About Me](about.html) section linked above.
+
+To see some sample projects, please navigate to Sample Projects and my Github account linked above.
 
 
 ### Contact Information
@@ -32,7 +36,6 @@ Hana Akbarnejad
 New York, New York 10032  
 
 Email: [ha2546@cumc.columbia.edu](mailto:ha2546@cumc.columbia.edu)  
-Phone: (206)434-5710
 
 
 

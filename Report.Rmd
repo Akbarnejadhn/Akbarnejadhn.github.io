@@ -12,6 +12,8 @@ Medicine - was analyzed to verify their claim of gender-based discrimination in 
 between salary and gender was investigated via stratified linear regression analysis, adjusting for several
 variables.
 
+To do so, the steps are to perform data exploration: descriptive and visualization, and explore the distribution of the outcome, considering potential transformations. Considering confounders and interaction of/with the main covariate of interest, and fitting stratified models. performing Model diagnostics (Heteroscedasticity, normality and multicollinearity), and investigating outliers and influential points.
+
 ```{r setup, include = FALSE}
 # Loading necessary packages
 library(tidyverse)

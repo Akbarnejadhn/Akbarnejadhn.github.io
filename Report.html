@@ -355,8 +355,20 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="about.html">About Me</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    About Me
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Akbarnejad_resume.pdf">Resume</a>
+    </li>
+    <li>
+      <a href="about.html">More</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -422,6 +434,7 @@ div.tocify {
 
 
 <p>In this project, a dataset presented in a lawsuit by plaintiffs - female doctors at Houston College of Medicine - was analyzed to verify their claim of gender-based discrimination in salaries. The association between salary and gender was investigated via stratified linear regression analysis, adjusting for several variables.</p>
+<p>To do so, the steps are to perform data exploration: descriptive and visualization, and explore the distribution of the outcome, considering potential transformations. Considering confounders and interaction of/with the main covariate of interest, and fitting stratified models. performing Model diagnostics (Heteroscedasticity, normality and multicollinearity), and investigating outliers and influential points.</p>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
 <div id="data-description" class="section level2">

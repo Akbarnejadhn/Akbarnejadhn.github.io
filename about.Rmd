@@ -6,84 +6,16 @@ output:
     toc_float: true
 ---
 
-## Education
+[Resume](Akbarnejad_resume.pdf)
 
-- **Columbia University, Mailman School of Public Health** (New York, New York) - Expected December 2020
+When I was a graduate student at university of Tehran -- the most reputable higher education institution in that country per various international rankings such as Academic Ranking of World Universities 2019. The university accepts from top 1% of high school graduates, every year --, I worked as a Graduate Research Associate where I used SAS extensively to analyze and visualize my lab work results and communicate them effectively with other research teams.
+My thesis project was focused on nanotoxicity of gold nano particles and how these widely used particles can affect stucture and function of key enzymes of human nervous systme. As another part of my research, I used Molecular Dynamic simulation techniques (Gromacs software) for modeling protein structure. During my graduate studies, the need for people with knowledge in statistics in the context of biology got highlighted for me. Fascinated by this area, I decided to pursue a career in Biostatistics and integrate my knowledge in biological science with statistical and computational skills.
 
-Master of Science (MS) in Biostatistics - theory and Methods Track
+I also have teaching expeience and I am currently an active member and VP of Operations at Healthcare Data Analytics Organization at Mailman School of Public Health.
 
-- **University of Washington** (Seattle, WA) - March 2017 to Dec 2018
+I enjoy running half-marathons (and full marathons in near future), hiking, cooking, reading psychology, and tweeting in Farsi, my native language.
 
-Part-time Non-matriculated Student
-
-Acdemic Courses in Math and Statistics
-
-- **University of Tehran** (Tehran, Iran) - Feb 217
-
-Master of Science (MS) in Nanobiotechnology
-
-- **University of Tehran** (Tehran, Iran) - Feb 2013
-
-Bachelor of Science (BS) in Cell and Molecular Biology
-
-## Research Experience
-
-- **University of Tehran / Tarbiat Modarres University** - Sep 2015 to Feb 2017
-
-“Investigations on Nanotoxicity of Gold Nanoparticles on Acetylcholinesterase”
-
-- **University of Tehran** - Sep 2015 to Feb 2017
-
-“in silico Study of Gold Nanoparticle-Cholinesterases Interactions; A Molecular Dynamics Simulation Study”
-
-## Skills
-
-- **Statistical packages:** SAS, SPSS, Minitab, GraphPad Prism
-
--	**Programming languages:** R, Java, C++
-
-- **Relational Data base Design, Git**
-
-- **General:** Microsoft Office (Word, Excel, PowerPoint), LaTex, Adobe Illustrator
-
-- **Bioinformatics tools:** Oligo Primer Analysis, Gene Runner
-
-- **Biophysical packages and Molecular, Cellular, Biochemical, Biophysical lab skills**
-
-- **Languages:** Native Farsi, Fluent in English
-
-
-## Related Courseworks
-
-Data Science (R programming Language)
-
-Introduction to Biostatistical Methods
-
-Engineering Probability and Statistics
-
-Probability and Mathematical Statistics
-
-Linear Algebra
-
-Differential Equations
-
-Linear Analysis
-
-Applied Biostatistics
-
-Design of Experiments and Statistical Analysis of Data (covered SAS)
-
-C++ Programming
-
-Java Programming
-
-Biostatistics Lab. (covered SPSS)
-
-Calculus I, II, and III
-
-Various courses in Genetics, Bioinformatics, Cell and Molecular Biology, Microbiology, Immunology, Biochemistry, Biophysics, and Nanotechnology
-
-
+PLease feel free to contact me via my email address on the home page, or linked above.
 
 
 
