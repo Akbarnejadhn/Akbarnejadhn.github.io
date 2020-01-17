@@ -1,0 +1,292 @@
+---
+title: "Salary Discrimination in Houston College of Medicine"
+output: 
+  html_document:
+    code_fold: hide
+    toc: true
+    toc_float: true
+---
+
+In this project, a dataset presented in a lawsuit by plaintiffs - female doctors at Houston College of
+Medicine - was analyzed to verify their claim of gender-based discrimination in salaries. The association
+between salary and gender was investigated via stratified linear regression analysis, adjusting for several
+variables.
+
+```{r setup, include = FALSE}
+# Loading necessary packages
+library(tidyverse)
+library(arsenal)
+library(patchwork)
+library(viridis)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	out.width = "80%",
+	fig_caption = TRUE
+)
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis")
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+```
+
+```{r Data_Import, include = FALSE}
+load("./data/Lawsuit_Cleaned.RData")
+
+df_strat1 = df %>% filter(experCat == "<= 5")
+df_strat2 = df %>% filter(experCat == "> 5 & <= 10")
+df_strat3 = df %>% filter(experCat == "> 10")
+```
+
+# Methods
+
+## Data Description
+
+The data, used in this analysis, was provided by the plaintiffs - female doctors working at Houston College of Medicine who utilized this data set to support their claims of gender discrimination allegedly practiced by said college. The sample contains a total of 261 subjects, both male and female, and was drawn from the faculty at Houston College of Medicine.
+
+The main outcome of interest in this analysis was salary, taken as the average of the salaries from academic years 1994 and 1995. The main predictor of interest was gender. The dataset also contained information on subjects' publication rates (expressed as the number of publications on CV/number of years between CV date and MD date), years of experience since MD was obtained, department affiliations, faculty rank, board certification status, and whether they worked in research or were engaged in clinical practice.
+
+
+## Statistical  Analysis
+
+Exploratory Analysis of the data revealed that a log-transformation of the average salaries from academic years 1994 and 1995 was necessary in order to remove the skewness present in the data (see Figure 1). It was decided to take said average in order to include more information in the model and present a more general picture of this outcome. 
+ 
+
+```{r Distribution of mean salary log transformation, echo = FALSE}
+plot_1 = df %>% 
+  ggplot(aes(x = mean_sal)) + 
+  geom_histogram() +
+  labs(
+    title = "Figure 1a:\nHistogram of Mean Salary",
+    x = "Mean Salary ($)")
+
+plot_2 = df %>% 
+  ggplot(aes(x = log(mean_sal))) + 
+  geom_histogram() +
+  labs(
+    title = "Figure 1b:\nHistogram of log(Mean Salary)",
+    x = "log(Mean Salary ($))")
+
+plot_1 + plot_2
+```
+
+After fitting a crude model with the log-transformed mean salary as the outcome and gender as the only independent variable, a multiple linear regression model was fitted using the following independent variables: gender, department, publication rate, certification status, subjects' working emphasis, experience, and rank. A comparison of the coefficient for gender and its associated p-value in both models revealed that the additional variables included are possible confounders for the relationship between the log-transformed mean salary and gender. However, due to the high VIF of publication rate - indicating serious multicollinearity - this variable was excluded from the model.
+ 
+ 
+Next, possible interaction effects were assessed. A significant interaction between gender and experience was uncovered, which made a stratified analysis necessary. Since experience was a continuous variable, a categorization of the variable experience was performed according to the following rules: subjects with experience less than or equal to five years belonged to the first stratum, subjects with experience of more than five and up to ten years were assigned to the second stratum, and subjects with an experience of more than ten years can be found in the third stratum. Please note that model diagnostics for all three fitted models, one for each stratum, were performed and considered sufficiently good (see appendix). 
+
+
+
+# Results
+
+The sample characteristics are presented in Table 1. The sample consisted of 261 faculty, of which 155 (59.4 %) were male, and 106 (40.6 %) were female. Exploratory data analysis suggested that women might earn less money than men, on average (see Figure 2). 
+
+\newpage
+```{r Table1_lables, include = FALSE}
+my_labels =  list(dept = "Department", 
+                  gender = "Gender",
+                  clin = "Emphasis",
+                  cert = "Certification Status",
+                  prate = "Publication rate",
+                  exper = "# of years experince\nsince obtaining MD",
+                  rank = "Rank",
+                  sal94 = "Salary\n(academic year 1994)",
+                  sal95 = "Salary\n(academic year 1995)")
+```
+
+
+```{r Clean_output, include = FALSE}
+my_controls = tableby.control(
+               total = T,
+               test = F,  
+               numeric.stats = c("meansd", "medianq1q3", "range"),
+               cat.stats = c("countpct"),
+               stats.labels = list(
+                 meansd = "Mean (SD)",
+                 range = "Min - Max",
+                 medianq1q3 = "Median (Q1, Q3)",
+                 Nmiss2 = "Missing",
+                 countpct = "N (%)"))
+```
+
+```{r Table_Creation, echo=FALSE, results="asis"}
+Table_1 = tableby( 
+  gender ~ dept + clin + cert + prate + exper + rank + sal94 + sal95, 
+  data = df, 
+  control = my_controls)
+
+summary(Table_1,
+        title = "Characteristics of the Sample", 
+        labelTranslations = my_labels, 
+        text = T, 
+        digits = 2)
+```
+
+
+```{r Mean_Salary_by_Gender, echo = FALSE}
+df %>% ggplot(aes(y = lnMeanSal)) +
+  geom_boxplot(aes(color = gender)) +
+  labs(
+    title = "Figure 2: Distribution of Log-transformed Mean Salary by Gender",
+    y = "log(Salary ($))")
+```
+
+
+The characteristics of each stratum can be found in tables provided in the appendix. The first stratum consisted of 64 subjects - 22 males (34.4 %) and 42 females (65.6 %). The second stratum was comprised of 97 subjects - 56 males (57.7 %) and 41 females (42.3 %). Finally, the third stratum consisted of 100 subjects - 77 males (77.0 %) and 23 females (23.0 %). Exploratory data analysis suggested that there might be a significant difference in mean salary (log-transformed) by gender in the first and second stratum, but not in the third stratum (see Figure 3).
+
+
+```{r Mean_Salary_by_Gender_by_Experience, echo = FALSE}
+df %>% ggplot(aes(y = lnMeanSal)) +
+  geom_boxplot(aes(color = gender)) +
+  labs(
+    title = "Figure 3: Distribution of Log-transformed Mean Salary by Gender in each Stratum",
+    y = "log(Salary ($))") +
+  facet_grid(~experCat)
+```
+
+
+Linear regression analysis showed that, in the crude model, there was a significant association between gender and the log-transformed mean salary (coefficient = -0.39, p = 5.1e-10 < 0.05) (see Table 2).
+
+```{r Crude_Model, echo = FALSE}
+model_crude = lm(lnMeanSal ~ gender, df)
+summary(model_crude) %>% broom::tidy() %>% knitr::kable(caption = "Crude Model - A significant association between salary and gender")
+```
+
+The three adjusted linear regression models - one fitted for each stratum - gave the following results (see Tables 3-5): A significant association (coefficient = -0.13, p = 0.0238 < 0.05) between gender and the log-transformed mean salary was found in the first stratum (experience <= 5 years), and no significant associations between gender and the log-transformed mean salary were found in second stratum (5 < years of experience <= 10) and in the third stratum (>10 years of experience) (p > 0.05), controlling for above mentioned variables.
+
+```{r Stratified Analysis, echo = FALSE}
+# First Strata
+fit_strat_1 = lm(lnMeanSal ~ gender + dept + clin + cert + rank, data = df_strat1)
+summary(fit_strat_1) %>% broom::tidy() %>% knitr::kable(caption = "Stratum 1 - A significant association between salary and gender")
+
+fit_strat_2 = lm(lnMeanSal ~ gender + dept + clin + cert + rank, data = df_strat2)
+summary(fit_strat_2) %>% broom::tidy() %>% knitr::kable(caption = "Stratum 2 - No significant association between salary and gender")
+
+fit_strat_3 = lm(lnMeanSal ~ gender + dept + clin + cert + rank, data = df_strat3)
+summary(fit_strat_3) %>% broom::tidy() %>% knitr::kable(caption = "Stratum 3 - No significant association between salary and gender")
+```
+
+
+# Discussion
+
+This analysis was conducted to investigate whether the data provided support the claim of the plaintiffs concerning gender discrimination in setting salaries at Houston College of Medicine. Controlling for rank, certification status, department affiliation, and subjects' working emphasis, the association between gender and the log-transformed mean salaries of academic years 1994 and 1995 were analyzed using linear regression stratified by years of experience: less than or equal to five years, more than five and up to ten years, and more than ten years.
+
+Controlling for variables mentioned above, only in the first stratum was a significant association between the log-transformed mean salary and gender observed (coefficient = -0.13, p = 0.0238), i.e., on average, the mean income of women was about ~88% of the salary of men in this stratum. 
+
+As it has been shown in the introduction, different studies have adjusted for different variables and all of them in the similar context of medical field have shown a significant association between gender and salary. Referring to our analysis results, however, it appears as if women face gender disparities in terms of monetary compensation at the start of their careers at Houston College of Medicine, adjusting for similar variables, and once they have established their position in the field, it seems that gender has no direct impact on their salaries anymore.**
+
+**Previously, a study of 24 different public medical schools in the United States was mentioned, which found a significant gender difference in the annual salary of male and female physicians, after controlling for age, experience, specialty, rank, and measures of research productivity and clinical revenue [1]. This study, which adjusted for similar variables as the analysis presented here, is only one of many whose conclusions do not align with our findings. It appears as if women face gender disparities in terms of monetary compensation at the start of their careers at Houston College of Medicine. However, once they established their position in the field, it seems as if gender has no direct impact on their salaries anymore.
+
+
+This dataset and analysis have several limitations. First and foremost, neither the race nor the administrative position was recorded. People with additional administrative roles would most certainly be better compensated, and potential racial disparities could also account for differences in salaries among doctors. Moreover, after stratification, the sample size for each stratum was rather small. This issue was worsened by the large numbers of indicator variables introduced by the categorical variables. Consequently, caution should be exercised in interpreting the results. Finally, caution should also be exercised when generalizing the presented conclusions to the general medical field. This data set served a specific purpose of demonstrating gender discrimination at Houston College of Medicine, and therefore, only represents the population of said institute at best. On top of that, the dataset only contains salaries from the academic years 1994 and 1995. Hence, it is unlikely that the data reflect the current landscape of gender discrimination in salaries in the medical field. 
+
+It should be noted that there were two influential observations present in the first stratum whose exclusion changed the outcome of the regression analysis dramatically. Moreover, there was an influential point in the third stratum whose effect, however, was less severe (see appendix for further information).
+
+In conclusion, the findings of this analysis partially support the claims of gender discrimination in salaries: Female doctors with up to five years of experience do earn only about 88% of the salary of their male counterparts, on average. 
+
+
+#  Appendix
+
+
+## Charateristics of the Three Strata
+
+```{r Stratified_Analysis_Tables, echo=FALSE, results="asis"}
+Table_Strata_1 = tableby( 
+  gender ~ dept + clin + cert + prate + exper + rank + sal94 + sal95, 
+  data = df_strat1, 
+  control = my_controls)
+
+summary(Table_Strata_1,
+        title = "Characteristics of the First Stratum", 
+        labelTranslations = my_labels, 
+        text = T, 
+        digits = 2)
+
+
+Table_Strata_2 = tableby( 
+  gender ~ dept + clin + cert + prate + exper + rank + sal94 + sal95, 
+  data = df_strat2, 
+  control = my_controls)
+
+summary(Table_Strata_2,
+        title = "Characteristics of the Second Stratum", 
+        labelTranslations = my_labels, 
+        text = T, 
+        digits = 2)
+
+
+Table_Strata_3 = tableby( 
+  gender ~ dept + clin + cert + prate + exper + rank + sal94 + sal95, 
+  data = df_strat3, 
+  control = my_controls)
+
+summary(Table_Strata_1,
+        title = "Characteristics of the Third Stratum", 
+        labelTranslations = my_labels, 
+        text = T, 
+        digits = 2)
+```
+
+
+## Model Diagnostics for each model fit in the Stratified Analysis
+
+**Add plots that show the linear relationship between continuous preditors and the log transformed outcome**
+
+
+We performed model diagnostics for each of the models fit in the stratified analysis.
+
+In the first stratum we found the following:
+
+Outlier in X (id)       | Outlier in Y (id)       | Possible Influential Point (id)
+------------------------| ----------------------- | --------------------------
+31, 38, 63, 69, 93, 99, |     184                 |  184, 252
+106, 107, 111, 125,137, | 
+184, 228, 243, 252      | 
+              
+              
+The following plots illustrate that the model assumptions are satisfied well enough:
+
+```{r Model Diagnostics Strata 1, echo = FALSE}
+par(mfrow = c(2,2))
+plot(fit_strat_1)
+```
+
+
+
+
+In the second stratum we found the following:
+
+Outlier in X (id)       | Outlier in Y (id)       | Possible Influential Point (id)
+------------------------| ----------------------- | --------------------------
+	74, 100, 105, 116     |     43                  |  none
+              
+              
+The following plots illustrate that the model assumptions are satisfied well enough:
+
+```{r Model Diagnostics Strata 2, echo = FALSE}
+par(mfrow = c(2,2))
+plot(fit_strat_2)
+```
+
+
+
+In the third stratum we found the following:
+
+Outlier in X (id)       | Outlier in Y (id)       | Possible Influential Point (id)
+------------------------| ----------------------- | --------------------------
+92, 94, 109, 113,       |     58                  |  58
+ 115, 120, 127, 133,135 |                         |             
+              
+The following plots illustrate that the model assumptions are satisfied well enough:
+
+```{r Model Diagnostics Strata 3, echo = FALSE}
+par(mfrow = c(2,2))
+plot(fit_strat_3)
+```
+
+Note: This was a group project done collaboratively with Daniela Quigee and Hao Sun who are also Mailman SPH students.

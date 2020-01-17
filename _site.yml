@@ -7,16 +7,18 @@ navbar:
       href: about.html
     - text: "Sample Projects"
       menu:
+      - text: "Posture and Horns!"
+        href: p8105_mtp_ha2546.html
+      - text: "NY Opioid Crisis"
+        href: index_report.html
       - text: "NY Restaurants"
         menu:
         - text: "Plotly"
           href: plotly.html
         - text: "Dashboard"
           href: test.html
-      - text: "Posture and Horns!"
-        href: p8105_mtp_ha2546.html
-      - text: "NY Opioid Crisis"
-        href: index_report.html
+      - text: "Salary Discrimination?"
+        href: Report.html
     - icon: fa-github fa-lg
       href: http://github.com/Akbarnejadhn
     - icon: fa-linkedin

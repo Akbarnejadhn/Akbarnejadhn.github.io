@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Salary Discrimination in Houston College of Medicine</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="mailto:&lt;ha2546@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About Me</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sample Projects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="p8105_mtp_ha2546.html">Posture and Horns!</a>
+    </li>
+    <li>
+      <a href="index_report.html">NY Opioid Crisis</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">NY Restaurants</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="plotly.html">Plotly</a>
+        </li>
+        <li>
+          <a href="test.html">Dashboard</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="Report.html">Salary Discrimination?</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="http://github.com/Akbarnejadhn">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://linkedin.com/in/hakbarnejad">
+    <span class="fa fa-linkedin"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Salary Discrimination in Houston College of Medicine</h1>
+
+</div>
+
+
+<p>In this project, a dataset presented in a lawsuit by plaintiffs - female doctors at Houston College of Medicine - was analyzed to verify their claim of gender-based discrimination in salaries. The association between salary and gender was investigated via stratified linear regression analysis, adjusting for several variables.</p>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<div id="data-description" class="section level2">
+<h2>Data Description</h2>
+<p>The data, used in this analysis, was provided by the plaintiffs - female doctors working at Houston College of Medicine who utilized this data set to support their claims of gender discrimination allegedly practiced by said college. The sample contains a total of 261 subjects, both male and female, and was drawn from the faculty at Houston College of Medicine.</p>
+<p>The main outcome of interest in this analysis was salary, taken as the average of the salaries from academic years 1994 and 1995. The main predictor of interest was gender. The dataset also contained information on subjects’ publication rates (expressed as the number of publications on CV/number of years between CV date and MD date), years of experience since MD was obtained, department affiliations, faculty rank, board certification status, and whether they worked in research or were engaged in clinical practice.</p>
+</div>
+<div id="statistical-analysis" class="section level2">
+<h2>Statistical Analysis</h2>
+<p>Exploratory Analysis of the data revealed that a log-transformation of the average salaries from academic years 1994 and 1995 was necessary in order to remove the skewness present in the data (see Figure 1). It was decided to take said average in order to include more information in the model and present a more general picture of this outcome.</p>
+<p><img src="Report_files/figure-html/Distribution%20of%20mean%20salary%20log%20transformation-1.png" width="80%" /></p>
+<p>After fitting a crude model with the log-transformed mean salary as the outcome and gender as the only independent variable, a multiple linear regression model was fitted using the following independent variables: gender, department, publication rate, certification status, subjects’ working emphasis, experience, and rank. A comparison of the coefficient for gender and its associated p-value in both models revealed that the additional variables included are possible confounders for the relationship between the log-transformed mean salary and gender. However, due to the high VIF of publication rate - indicating serious multicollinearity - this variable was excluded from the model.</p>
+<p>Next, possible interaction effects were assessed. A significant interaction between gender and experience was uncovered, which made a stratified analysis necessary. Since experience was a continuous variable, a categorization of the variable experience was performed according to the following rules: subjects with experience less than or equal to five years belonged to the first stratum, subjects with experience of more than five and up to ten years were assigned to the second stratum, and subjects with an experience of more than ten years can be found in the third stratum. Please note that model diagnostics for all three fitted models, one for each stratum, were performed and considered sufficiently good (see appendix).</p>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p>The sample characteristics are presented in Table 1. The sample consisted of 261 faculty, of which 155 (59.4 %) were male, and 106 (40.6 %) were female. Exploratory data analysis suggested that women might earn less money than men, on average (see Figure 2).</p>
+
+<table>
+<caption>Characteristics of the Sample</caption>
+<colgroup>
+<col width="28%" />
+<col width="24%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">male (N=155)</th>
+<th align="center">female (N=106)</th>
+<th align="center">Total (N=261)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Department</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Surgery</td>
+<td align="center">35 (22.6%)</td>
+<td align="center">5 (4.7%)</td>
+<td align="center">40 (15.3%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Biochemistry/Molecular Biology</td>
+<td align="center">30 (19.4%)</td>
+<td align="center">20 (18.9%)</td>
+<td align="center">50 (19.2%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Genetics</td>
+<td align="center">10 (6.5%)</td>
+<td align="center">11 (10.4%)</td>
+<td align="center">21 (8.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Medicine</td>
+<td align="center">50 (32.3%)</td>
+<td align="center">30 (28.3%)</td>
+<td align="center">80 (30.7%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Pediatrics</td>
+<td align="center">10 (6.5%)</td>
+<td align="center">20 (18.9%)</td>
+<td align="center">30 (11.5%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Physiology</td>
+<td align="center">20 (12.9%)</td>
+<td align="center">20 (18.9%)</td>
+<td align="center">40 (15.3%)</td>
+</tr>
+<tr class="even">
+<td align="left">Emphasis</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Primarily research</td>
+<td align="center">55 (35.5%)</td>
+<td align="center">46 (43.4%)</td>
+<td align="center">101 (38.7%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Primarily clinical</td>
+<td align="center">100 (64.5%)</td>
+<td align="center">60 (56.6%)</td>
+<td align="center">160 (61.3%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Certification Status</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Board certified</td>
+<td align="center">118 (76.1%)</td>
+<td align="center">70 (66.0%)</td>
+<td align="center">188 (72.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- not certified</td>
+<td align="center">37 (23.9%)</td>
+<td align="center">36 (34.0%)</td>
+<td align="center">73 (28.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">Publication rate</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Mean (SD)</td>
+<td align="center">4.65 (1.94)</td>
+<td align="center">5.35 (1.89)</td>
+<td align="center">4.93 (1.94)</td>
+</tr>
+<tr class="even">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">4.00 (3.10, 6.70)</td>
+<td align="center">5.25 (3.73, 7.27)</td>
+<td align="center">4.40 (3.20, 6.90)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Min - Max</td>
+<td align="center">1.30 - 8.60</td>
+<td align="center">2.40 - 8.70</td>
+<td align="center">1.30 - 8.70</td>
+</tr>
+<tr class="even">
+<td align="left"># of years experince</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">since obtaining MD</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Mean (SD)</td>
+<td align="center">12.10 (6.70)</td>
+<td align="center">7.49 (4.17)</td>
+<td align="center">10.23 (6.23)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">10.00 (7.00, 15.00)</td>
+<td align="center">7.00 (5.00, 10.00)</td>
+<td align="center">9.00 (6.00, 14.00)</td>
+</tr>
+<tr class="even">
+<td align="left">- Min - Max</td>
+<td align="center">2.00 - 37.00</td>
+<td align="center">1.00 - 23.00</td>
+<td align="center">1.00 - 37.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Rank</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Assistant</td>
+<td align="center">43 (27.7%)</td>
+<td align="center">69 (65.1%)</td>
+<td align="center">112 (42.9%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Associate</td>
+<td align="center">43 (27.7%)</td>
+<td align="center">21 (19.8%)</td>
+<td align="center">64 (24.5%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Full professor</td>
+<td align="center">69 (44.5%)</td>
+<td align="center">16 (15.1%)</td>
+<td align="center">85 (32.6%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Salary</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">(academic year 1994)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Mean (SD)</td>
+<td align="center">177338.76 (85930.54)</td>
+<td align="center">118871.27 (56168.01)</td>
+<td align="center">153593.34 (80469.67)</td>
+</tr>
+<tr class="even">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">155006.00 (109687.00, 231501.50)</td>
+<td align="center">108457.00 (75774.50, 143096.00)</td>
+<td align="center">133284.00 (90771.00, 200543.00)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Min - Max</td>
+<td align="center">52582.00 - 428876.00</td>
+<td align="center">34514.00 - 308081.00</td>
+<td align="center">34514.00 - 428876.00</td>
+</tr>
+<tr class="even">
+<td align="left">Salary</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">(academic year 1995)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Mean (SD)</td>
+<td align="center">194914.09 (94902.73)</td>
+<td align="center">130876.92 (62034.51)</td>
+<td align="center">168906.66 (88778.43)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">170967.00 (119952.50, 257163.00)</td>
+<td align="center">119135.00 (82345.25, 154170.50)</td>
+<td align="center">148117.00 (99972.00, 218955.00)</td>
+</tr>
+<tr class="even">
+<td align="left">- Min - Max</td>
+<td align="center">58923.00 - 472589.00</td>
+<td align="center">38675.00 - 339664.00</td>
+<td align="center">38675.00 - 472589.00</td>
+</tr>
+</tbody>
+</table>
+<p><img src="Report_files/figure-html/Mean_Salary_by_Gender-1.png" width="80%" /></p>
+<p>The characteristics of each stratum can be found in tables provided in the appendix. The first stratum consisted of 64 subjects - 22 males (34.4 %) and 42 females (65.6 %). The second stratum was comprised of 97 subjects - 56 males (57.7 %) and 41 females (42.3 %). Finally, the third stratum consisted of 100 subjects - 77 males (77.0 %) and 23 females (23.0 %). Exploratory data analysis suggested that there might be a significant difference in mean salary (log-transformed) by gender in the first and second stratum, but not in the third stratum (see Figure 3).</p>
+<p><img src="Report_files/figure-html/Mean_Salary_by_Gender_by_Experience-1.png" width="80%" /></p>
+<p>Linear regression analysis showed that, in the crude model, there was a significant association between gender and the log-transformed mean salary (coefficient = -0.39, p = 5.1e-10 &lt; 0.05) (see Table 2).</p>
+<table>
+<caption>Crude Model - A significant association between salary and gender</caption>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">12.0184986</td>
+<td align="right">0.0380004</td>
+<td align="right">316.272884</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">genderfemale</td>
+<td align="right">-0.3853044</td>
+<td align="right">0.0596287</td>
+<td align="right">-6.461724</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>The three adjusted linear regression models - one fitted for each stratum - gave the following results (see Tables 3-5): A significant association (coefficient = -0.13, p = 0.0238 &lt; 0.05) between gender and the log-transformed mean salary was found in the first stratum (experience &lt;= 5 years), and no significant associations between gender and the log-transformed mean salary were found in second stratum (5 &lt; years of experience &lt;= 10) and in the third stratum (&gt;10 years of experience) (p &gt; 0.05), controlling for above mentioned variables.</p>
+<table>
+<caption>Stratum 1 - A significant association between salary and gender</caption>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">12.3090987</td>
+<td align="right">0.0893491</td>
+<td align="right">137.7640730</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">genderfemale</td>
+<td align="right">-0.1257741</td>
+<td align="right">0.0540886</td>
+<td align="right">-2.3253341</td>
+<td align="right">0.0238410</td>
+</tr>
+<tr class="odd">
+<td align="left">deptBiochemistry/Molecular Biology</td>
+<td align="right">-1.0589394</td>
+<td align="right">0.1546548</td>
+<td align="right">-6.8471161</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">deptGenetics</td>
+<td align="right">-0.7849003</td>
+<td align="right">0.1094759</td>
+<td align="right">-7.1696153</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">deptMedicine</td>
+<td align="right">-0.3823906</td>
+<td align="right">0.0738507</td>
+<td align="right">-5.1778865</td>
+<td align="right">0.0000034</td>
+</tr>
+<tr class="even">
+<td align="left">deptPediatrics</td>
+<td align="right">-0.7009574</td>
+<td align="right">0.0845709</td>
+<td align="right">-8.2883957</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">deptPhysiology</td>
+<td align="right">-1.2159061</td>
+<td align="right">0.0943909</td>
+<td align="right">-12.8815989</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">clinPrimarily clinical</td>
+<td align="right">0.1188930</td>
+<td align="right">0.0620500</td>
+<td align="right">1.9160830</td>
+<td align="right">0.0606545</td>
+</tr>
+<tr class="odd">
+<td align="left">certnot certified</td>
+<td align="right">-0.1168796</td>
+<td align="right">0.0529226</td>
+<td align="right">-2.2085010</td>
+<td align="right">0.0314743</td>
+</tr>
+<tr class="even">
+<td align="left">rankAssociate</td>
+<td align="right">0.0304415</td>
+<td align="right">0.0877100</td>
+<td align="right">0.3470702</td>
+<td align="right">0.7298875</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Stratum 2 - No significant association between salary and gender</caption>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">12.2166862</td>
+<td align="right">0.0476936</td>
+<td align="right">256.1494269</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">genderfemale</td>
+<td align="right">-0.0146175</td>
+<td align="right">0.0252336</td>
+<td align="right">-0.5792884</td>
+<td align="right">0.5639089</td>
+</tr>
+<tr class="odd">
+<td align="left">deptBiochemistry/Molecular Biology</td>
+<td align="right">-0.9218873</td>
+<td align="right">0.0533390</td>
+<td align="right">-17.2835567</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">deptGenetics</td>
+<td align="right">-0.7788346</td>
+<td align="right">0.0574168</td>
+<td align="right">-13.5645702</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">deptMedicine</td>
+<td align="right">-0.4010405</td>
+<td align="right">0.0384379</td>
+<td align="right">-10.4334607</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">deptPediatrics</td>
+<td align="right">-0.7059193</td>
+<td align="right">0.0472597</td>
+<td align="right">-14.9370197</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">deptPhysiology</td>
+<td align="right">-1.1230270</td>
+<td align="right">0.0525259</td>
+<td align="right">-21.3804267</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">clinPrimarily clinical</td>
+<td align="right">0.2449037</td>
+<td align="right">0.0344593</td>
+<td align="right">7.1070521</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">certnot certified</td>
+<td align="right">-0.1528088</td>
+<td align="right">0.0331427</td>
+<td align="right">-4.6106365</td>
+<td align="right">0.0000139</td>
+</tr>
+<tr class="even">
+<td align="left">rankAssociate</td>
+<td align="right">0.1682590</td>
+<td align="right">0.0277366</td>
+<td align="right">6.0663255</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">rankFull professor</td>
+<td align="right">0.2409081</td>
+<td align="right">0.0322452</td>
+<td align="right">7.4711222</td>
+<td align="right">0.0000000</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Stratum 3 - No significant association between salary and gender</caption>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">12.3996811</td>
+<td align="right">0.0587725</td>
+<td align="right">210.9777759</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">genderfemale</td>
+<td align="right">-0.0207339</td>
+<td align="right">0.0372841</td>
+<td align="right">-0.5561066</td>
+<td align="right">0.5795335</td>
+</tr>
+<tr class="odd">
+<td align="left">deptBiochemistry/Molecular Biology</td>
+<td align="right">-0.9058780</td>
+<td align="right">0.0535974</td>
+<td align="right">-16.9015363</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">deptGenetics</td>
+<td align="right">-0.7577260</td>
+<td align="right">0.0659384</td>
+<td align="right">-11.4914188</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">deptMedicine</td>
+<td align="right">-0.4187279</td>
+<td align="right">0.0448320</td>
+<td align="right">-9.3399378</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">deptPediatrics</td>
+<td align="right">-0.7645256</td>
+<td align="right">0.0709795</td>
+<td align="right">-10.7710780</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">deptPhysiology</td>
+<td align="right">-1.0327933</td>
+<td align="right">0.0556724</td>
+<td align="right">-18.5512502</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">clinPrimarily clinical</td>
+<td align="right">0.2185586</td>
+<td align="right">0.0342499</td>
+<td align="right">6.3812981</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">certnot certified</td>
+<td align="right">-0.2494152</td>
+<td align="right">0.0374808</td>
+<td align="right">-6.6544706</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">rankAssociate</td>
+<td align="right">0.1421898</td>
+<td align="right">0.0536860</td>
+<td align="right">2.6485454</td>
+<td align="right">0.0095633</td>
+</tr>
+<tr class="odd">
+<td align="left">rankFull professor</td>
+<td align="right">0.2543848</td>
+<td align="right">0.0500792</td>
+<td align="right">5.0796533</td>
+<td align="right">0.0000021</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<p>This analysis was conducted to investigate whether the data provided support the claim of the plaintiffs concerning gender discrimination in setting salaries at Houston College of Medicine. Controlling for rank, certification status, department affiliation, and subjects’ working emphasis, the association between gender and the log-transformed mean salaries of academic years 1994 and 1995 were analyzed using linear regression stratified by years of experience: less than or equal to five years, more than five and up to ten years, and more than ten years.</p>
+<p>Controlling for variables mentioned above, only in the first stratum was a significant association between the log-transformed mean salary and gender observed (coefficient = -0.13, p = 0.0238), i.e., on average, the mean income of women was about ~88% of the salary of men in this stratum.</p>
+<p>As it has been shown in the introduction, different studies have adjusted for different variables and all of them in the similar context of medical field have shown a significant association between gender and salary. Referring to our analysis results, however, it appears as if women face gender disparities in terms of monetary compensation at the start of their careers at Houston College of Medicine, adjusting for similar variables, and once they have established their position in the field, it seems that gender has no direct impact on their salaries anymore.**</p>
+<p>**Previously, a study of 24 different public medical schools in the United States was mentioned, which found a significant gender difference in the annual salary of male and female physicians, after controlling for age, experience, specialty, rank, and measures of research productivity and clinical revenue [1]. This study, which adjusted for similar variables as the analysis presented here, is only one of many whose conclusions do not align with our findings. It appears as if women face gender disparities in terms of monetary compensation at the start of their careers at Houston College of Medicine. However, once they established their position in the field, it seems as if gender has no direct impact on their salaries anymore.</p>
+<p>This dataset and analysis have several limitations. First and foremost, neither the race nor the administrative position was recorded. People with additional administrative roles would most certainly be better compensated, and potential racial disparities could also account for differences in salaries among doctors. Moreover, after stratification, the sample size for each stratum was rather small. This issue was worsened by the large numbers of indicator variables introduced by the categorical variables. Consequently, caution should be exercised in interpreting the results. Finally, caution should also be exercised when generalizing the presented conclusions to the general medical field. This data set served a specific purpose of demonstrating gender discrimination at Houston College of Medicine, and therefore, only represents the population of said institute at best. On top of that, the dataset only contains salaries from the academic years 1994 and 1995. Hence, it is unlikely that the data reflect the current landscape of gender discrimination in salaries in the medical field.</p>
+<p>It should be noted that there were two influential observations present in the first stratum whose exclusion changed the outcome of the regression analysis dramatically. Moreover, there was an influential point in the third stratum whose effect, however, was less severe (see appendix for further information).</p>
+<p>In conclusion, the findings of this analysis partially support the claims of gender discrimination in salaries: Female doctors with up to five years of experience do earn only about 88% of the salary of their male counterparts, on average.</p>
+</div>
+<div id="appendix" class="section level1">
+<h1>Appendix</h1>
+<div id="charateristics-of-the-three-strata" class="section level2">
+<h2>Charateristics of the Three Strata</h2>
+<table>
+<caption>Characteristics of the First Stratum</caption>
+<colgroup>
+<col width="28%" />
+<col width="24%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">male (N=22)</th>
+<th align="center">female (N=42)</th>
+<th align="center">Total (N=64)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Department</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Surgery</td>
+<td align="center">7 (31.8%)</td>
+<td align="center">2 (4.8%)</td>
+<td align="center">9 (14.1%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Biochemistry/Molecular Biology</td>
+<td align="center">0 (0.0%)</td>
+<td align="center">2 (4.8%)</td>
+<td align="center">2 (3.1%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Genetics</td>
+<td align="center">2 (9.1%)</td>
+<td align="center">3 (7.1%)</td>
+<td align="center">5 (7.8%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Medicine</td>
+<td align="center">10 (45.5%)</td>
+<td align="center">13 (31.0%)</td>
+<td align="center">23 (35.9%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Pediatrics</td>
+<td align="center">1 (4.5%)</td>
+<td align="center">12 (28.6%)</td>
+<td align="center">13 (20.3%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Physiology</td>
+<td align="center">2 (9.1%)</td>
+<td align="center">10 (23.8%)</td>
+<td align="center">12 (18.8%)</td>
+</tr>
+<tr class="even">
+<td align="left">Emphasis</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Primarily research</td>
+<td align="center">2 (9.1%)</td>
+<td align="center">15 (35.7%)</td>
+<td align="center">17 (26.6%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Primarily clinical</td>
+<td align="center">20 (90.9%)</td>
+<td align="center">27 (64.3%)</td>
+<td align="center">47 (73.4%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Certification Status</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Board certified</td>
+<td align="center">16 (72.7%)</td>
+<td align="center">26 (61.9%)</td>
+<td align="center">42 (65.6%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- not certified</td>
+<td align="center">6 (27.3%)</td>
+<td align="center">16 (38.1%)</td>
+<td align="center">22 (34.4%)</td>
+</tr>
+<tr class="even">
+<td align="left">Publication rate</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Mean (SD)</td>
+<td align="center">3.32 (1.29)</td>
+<td align="center">4.97 (1.83)</td>
+<td align="center">4.40 (1.83)</td>
+</tr>
+<tr class="even">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">3.00 (2.42, 3.80)</td>
+<td align="center">4.15 (3.70, 6.45)</td>
+<td align="center">3.85 (3.08, 5.43)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Min - Max</td>
+<td align="center">1.90 - 7.00</td>
+<td align="center">2.40 - 8.40</td>
+<td align="center">1.90 - 8.40</td>
+</tr>
+<tr class="even">
+<td align="left"># of years experince</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">since obtaining MD</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Mean (SD)</td>
+<td align="center">4.36 (1.09)</td>
+<td align="center">3.69 (1.30)</td>
+<td align="center">3.92 (1.26)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">5.00 (4.00, 5.00)</td>
+<td align="center">4.00 (3.00, 5.00)</td>
+<td align="center">4.00 (3.00, 5.00)</td>
+</tr>
+<tr class="even">
+<td align="left">- Min - Max</td>
+<td align="center">2.00 - 5.00</td>
+<td align="center">1.00 - 5.00</td>
+<td align="center">1.00 - 5.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Rank</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Assistant</td>
+<td align="center">19 (86.4%)</td>
+<td align="center">40 (95.2%)</td>
+<td align="center">59 (92.2%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Associate</td>
+<td align="center">3 (13.6%)</td>
+<td align="center">2 (4.8%)</td>
+<td align="center">5 (7.8%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Full professor</td>
+<td align="center">0 (0.0%)</td>
+<td align="center">0 (0.0%)</td>
+<td align="center">0 (0.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Salary</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">(academic year 1994)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Mean (SD)</td>
+<td align="center">168756.41 (66131.53)</td>
+<td align="center">103597.67 (46035.59)</td>
+<td align="center">125995.98 (61724.94)</td>
+</tr>
+<tr class="even">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">153929.50 (125338.25, 219326.25)</td>
+<td align="center">102099.00 (65781.00, 128206.00)</td>
+<td align="center">121210.00 (75666.25, 153739.25)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Min - Max</td>
+<td align="center">52582.00 - 312966.00</td>
+<td align="center">34514.00 - 244551.00</td>
+<td align="center">34514.00 - 312966.00</td>
+</tr>
+<tr class="even">
+<td align="left">Salary</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">(academic year 1995)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Mean (SD)</td>
+<td align="center">184452.95 (71494.82)</td>
+<td align="center">113780.26 (50524.05)</td>
+<td align="center">138074.00 (67154.35)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">169837.00 (134518.75, 241235.25)</td>
+<td align="center">111301.00 (71853.25, 143811.25)</td>
+<td align="center">130826.50 (83314.75, 169272.00)</td>
+</tr>
+<tr class="even">
+<td align="left">- Min - Max</td>
+<td align="center">58923.00 - 336960.00</td>
+<td align="center">38675.00 - 265502.00</td>
+<td align="center">38675.00 - 336960.00</td>
+</tr>
+</tbody>
+</table>
+<table style="width:100%;">
+<caption>Characteristics of the Second Stratum</caption>
+<colgroup>
+<col width="28%" />
+<col width="23%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">male (N=56)</th>
+<th align="center">female (N=41)</th>
+<th align="center">Total (N=97)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Department</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Surgery</td>
+<td align="center">11 (19.6%)</td>
+<td align="center">3 (7.3%)</td>
+<td align="center">14 (14.4%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Biochemistry/Molecular Biology</td>
+<td align="center">13 (23.2%)</td>
+<td align="center">9 (22.0%)</td>
+<td align="center">22 (22.7%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Genetics</td>
+<td align="center">2 (3.6%)</td>
+<td align="center">7 (17.1%)</td>
+<td align="center">9 (9.3%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Medicine</td>
+<td align="center">17 (30.4%)</td>
+<td align="center">12 (29.3%)</td>
+<td align="center">29 (29.9%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Pediatrics</td>
+<td align="center">6 (10.7%)</td>
+<td align="center">5 (12.2%)</td>
+<td align="center">11 (11.3%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Physiology</td>
+<td align="center">7 (12.5%)</td>
+<td align="center">5 (12.2%)</td>
+<td align="center">12 (12.4%)</td>
+</tr>
+<tr class="even">
+<td align="left">Emphasis</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Primarily research</td>
+<td align="center">23 (41.1%)</td>
+<td align="center">19 (46.3%)</td>
+<td align="center">42 (43.3%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Primarily clinical</td>
+<td align="center">33 (58.9%)</td>
+<td align="center">22 (53.7%)</td>
+<td align="center">55 (56.7%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Certification Status</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Board certified</td>
+<td align="center">41 (73.2%)</td>
+<td align="center">27 (65.9%)</td>
+<td align="center">68 (70.1%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- not certified</td>
+<td align="center">15 (26.8%)</td>
+<td align="center">14 (34.1%)</td>
+<td align="center">29 (29.9%)</td>
+</tr>
+<tr class="even">
+<td align="left">Publication rate</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Mean (SD)</td>
+<td align="center">4.88 (1.98)</td>
+<td align="center">5.35 (1.94)</td>
+<td align="center">5.08 (1.97)</td>
+</tr>
+<tr class="even">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">4.35 (3.10, 6.85)</td>
+<td align="center">5.10 (3.70, 7.30)</td>
+<td align="center">4.70 (3.20, 7.10)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Min - Max</td>
+<td align="center">1.30 - 8.30</td>
+<td align="center">2.60 - 8.50</td>
+<td align="center">1.30 - 8.50</td>
+</tr>
+<tr class="even">
+<td align="left"># of years experince</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">since obtaining MD</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Mean (SD)</td>
+<td align="center">8.23 (1.43)</td>
+<td align="center">7.85 (1.44)</td>
+<td align="center">8.07 (1.44)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">8.00 (7.00, 10.00)</td>
+<td align="center">8.00 (7.00, 9.00)</td>
+<td align="center">8.00 (7.00, 9.00)</td>
+</tr>
+<tr class="even">
+<td align="left">- Min - Max</td>
+<td align="center">6.00 - 10.00</td>
+<td align="center">6.00 - 10.00</td>
+<td align="center">6.00 - 10.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Rank</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Assistant</td>
+<td align="center">19 (33.9%)</td>
+<td align="center">23 (56.1%)</td>
+<td align="center">42 (43.3%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Associate</td>
+<td align="center">20 (35.7%)</td>
+<td align="center">13 (31.7%)</td>
+<td align="center">33 (34.0%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Full professor</td>
+<td align="center">17 (30.4%)</td>
+<td align="center">5 (12.2%)</td>
+<td align="center">22 (22.7%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Salary</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">(academic year 1994)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Mean (SD)</td>
+<td align="center">152811.66 (74939.05)</td>
+<td align="center">126234.95 (61698.25)</td>
+<td align="center">141578.21 (70552.73)</td>
+</tr>
+<tr class="even">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">145022.50 (90112.50, 201515.50)</td>
+<td align="center">118101.00 (71015.00, 164080.00)</td>
+<td align="center">129499.00 (81769.00, 175791.00)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Min - Max</td>
+<td align="center">58126.00 - 366150.00</td>
+<td align="center">56177.00 - 308081.00</td>
+<td align="center">56177.00 - 366150.00</td>
+</tr>
+<tr class="even">
+<td align="left">Salary</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">(academic year 1995)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Mean (SD)</td>
+<td align="center">168902.80 (84215.35)</td>
+<td align="center">139517.66 (68361.46)</td>
+<td align="center">156482.28 (78888.29)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">160163.50 (98026.25, 221333.25)</td>
+<td align="center">129862.00 (80294.00, 180937.00)</td>
+<td align="center">141661.00 (91369.00, 195678.00)</td>
+</tr>
+<tr class="even">
+<td align="left">- Min - Max</td>
+<td align="center">64522.00 - 408898.00</td>
+<td align="center">61652.00 - 339664.00</td>
+<td align="center">61652.00 - 408898.00</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Characteristics of the Third Stratum</caption>
+<colgroup>
+<col width="28%" />
+<col width="24%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">male (N=22)</th>
+<th align="center">female (N=42)</th>
+<th align="center">Total (N=64)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Department</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Surgery</td>
+<td align="center">7 (31.8%)</td>
+<td align="center">2 (4.8%)</td>
+<td align="center">9 (14.1%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Biochemistry/Molecular Biology</td>
+<td align="center">0 (0.0%)</td>
+<td align="center">2 (4.8%)</td>
+<td align="center">2 (3.1%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Genetics</td>
+<td align="center">2 (9.1%)</td>
+<td align="center">3 (7.1%)</td>
+<td align="center">5 (7.8%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Medicine</td>
+<td align="center">10 (45.5%)</td>
+<td align="center">13 (31.0%)</td>
+<td align="center">23 (35.9%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Pediatrics</td>
+<td align="center">1 (4.5%)</td>
+<td align="center">12 (28.6%)</td>
+<td align="center">13 (20.3%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Physiology</td>
+<td align="center">2 (9.1%)</td>
+<td align="center">10 (23.8%)</td>
+<td align="center">12 (18.8%)</td>
+</tr>
+<tr class="even">
+<td align="left">Emphasis</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Primarily research</td>
+<td align="center">2 (9.1%)</td>
+<td align="center">15 (35.7%)</td>
+<td align="center">17 (26.6%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Primarily clinical</td>
+<td align="center">20 (90.9%)</td>
+<td align="center">27 (64.3%)</td>
+<td align="center">47 (73.4%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Certification Status</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Board certified</td>
+<td align="center">16 (72.7%)</td>
+<td align="center">26 (61.9%)</td>
+<td align="center">42 (65.6%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- not certified</td>
+<td align="center">6 (27.3%)</td>
+<td align="center">16 (38.1%)</td>
+<td align="center">22 (34.4%)</td>
+</tr>
+<tr class="even">
+<td align="left">Publication rate</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Mean (SD)</td>
+<td align="center">3.32 (1.29)</td>
+<td align="center">4.97 (1.83)</td>
+<td align="center">4.40 (1.83)</td>
+</tr>
+<tr class="even">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">3.00 (2.42, 3.80)</td>
+<td align="center">4.15 (3.70, 6.45)</td>
+<td align="center">3.85 (3.08, 5.43)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Min - Max</td>
+<td align="center">1.90 - 7.00</td>
+<td align="center">2.40 - 8.40</td>
+<td align="center">1.90 - 8.40</td>
+</tr>
+<tr class="even">
+<td align="left"># of years experince</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">since obtaining MD</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Mean (SD)</td>
+<td align="center">4.36 (1.09)</td>
+<td align="center">3.69 (1.30)</td>
+<td align="center">3.92 (1.26)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">5.00 (4.00, 5.00)</td>
+<td align="center">4.00 (3.00, 5.00)</td>
+<td align="center">4.00 (3.00, 5.00)</td>
+</tr>
+<tr class="even">
+<td align="left">- Min - Max</td>
+<td align="center">2.00 - 5.00</td>
+<td align="center">1.00 - 5.00</td>
+<td align="center">1.00 - 5.00</td>
+</tr>
+<tr class="odd">
+<td align="left">Rank</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Assistant</td>
+<td align="center">19 (86.4%)</td>
+<td align="center">40 (95.2%)</td>
+<td align="center">59 (92.2%)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Associate</td>
+<td align="center">3 (13.6%)</td>
+<td align="center">2 (4.8%)</td>
+<td align="center">5 (7.8%)</td>
+</tr>
+<tr class="even">
+<td align="left">- Full professor</td>
+<td align="center">0 (0.0%)</td>
+<td align="center">0 (0.0%)</td>
+<td align="center">0 (0.0%)</td>
+</tr>
+<tr class="odd">
+<td align="left">Salary</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">(academic year 1994)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">- Mean (SD)</td>
+<td align="center">168756.41 (66131.53)</td>
+<td align="center">103597.67 (46035.59)</td>
+<td align="center">125995.98 (61724.94)</td>
+</tr>
+<tr class="even">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">153929.50 (125338.25, 219326.25)</td>
+<td align="center">102099.00 (65781.00, 128206.00)</td>
+<td align="center">121210.00 (75666.25, 153739.25)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Min - Max</td>
+<td align="center">52582.00 - 312966.00</td>
+<td align="center">34514.00 - 244551.00</td>
+<td align="center">34514.00 - 312966.00</td>
+</tr>
+<tr class="even">
+<td align="left">Salary</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">(academic year 1995)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">- Mean (SD)</td>
+<td align="center">184452.95 (71494.82)</td>
+<td align="center">113780.26 (50524.05)</td>
+<td align="center">138074.00 (67154.35)</td>
+</tr>
+<tr class="odd">
+<td align="left">- Median (Q1, Q3)</td>
+<td align="center">169837.00 (134518.75, 241235.25)</td>
+<td align="center">111301.00 (71853.25, 143811.25)</td>
+<td align="center">130826.50 (83314.75, 169272.00)</td>
+</tr>
+<tr class="even">
+<td align="left">- Min - Max</td>
+<td align="center">58923.00 - 336960.00</td>
+<td align="center">38675.00 - 265502.00</td>
+<td align="center">38675.00 - 336960.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="model-diagnostics-for-each-model-fit-in-the-stratified-analysis" class="section level2">
+<h2>Model Diagnostics for each model fit in the Stratified Analysis</h2>
+<p><strong>Add plots that show the linear relationship between continuous preditors and the log transformed outcome</strong></p>
+<p>We performed model diagnostics for each of the models fit in the stratified analysis.</p>
+<p>In the first stratum we found the following:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Outlier in X (id)</th>
+<th>Outlier in Y (id)</th>
+<th>Possible Influential Point (id)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>31, 38, 63, 69, 93, 99,</td>
+<td>184</td>
+<td>184, 252</td>
+</tr>
+<tr class="even">
+<td>106, 107, 111, 125,137,</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>184, 228, 243, 252</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The following plots illustrate that the model assumptions are satisfied well enough:</p>
+<p><img src="Report_files/figure-html/Model%20Diagnostics%20Strata%201-1.png" width="80%" /></p>
+<p>In the second stratum we found the following:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Outlier in X (id)</th>
+<th>Outlier in Y (id)</th>
+<th>Possible Influential Point (id)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>74, 100, 105, 116</td>
+<td>43</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>The following plots illustrate that the model assumptions are satisfied well enough:</p>
+<p><img src="Report_files/figure-html/Model%20Diagnostics%20Strata%202-1.png" width="80%" /></p>
+<p>In the third stratum we found the following:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Outlier in X (id)</th>
+<th>Outlier in Y (id)</th>
+<th>Possible Influential Point (id)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>92, 94, 109, 113,</td>
+<td>58</td>
+<td>58</td>
+</tr>
+<tr class="even">
+<td>115, 120, 127, 133,135</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The following plots illustrate that the model assumptions are satisfied well enough:</p>
+<p><img src="Report_files/figure-html/Model%20Diagnostics%20Strata%203-1.png" width="80%" /></p>
+<p>Note: This was a group project done collaboratively with Daniela Quigee and Hao Sun who are also Mailman SPH students.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
