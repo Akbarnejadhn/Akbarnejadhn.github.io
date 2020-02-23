@@ -6,7 +6,7 @@ navbar:
     - text: "About Me"
       menu:
       - text: "Resume"
-        href: Akbarnejad_resume.pdf
+        href: resume_current.pdf
       - text: "More"
         href: about.html
     - text: "Sample Projects"

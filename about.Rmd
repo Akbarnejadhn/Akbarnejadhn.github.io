@@ -6,7 +6,7 @@ output:
     toc_float: true
 ---
 
-[Resume](Akbarnejad_resume.pdf)
+[Resume](resume_current.pdf)
 
 When I was a graduate student at university of Tehran -- the most reputable higher education institution in that country per various international rankings such as Academic Ranking of World Universities 2019. The university accepts from top 1% of high school graduates, every year --, I worked as a Graduate Research Associate where I used SAS extensively to analyze and visualize my lab work results and communicate them effectively with other research teams.
 My thesis project was focused on nanotoxicity of gold nano particles and how these widely used particles can affect stucture and function of key enzymes of human nervous systme. As another part of my research, I used Molecular Dynamic simulation techniques (Gromacs software) for modeling protein structure. During my graduate studies, the need for people with knowledge in statistics in the context of biology got highlighted for me. Fascinated by this area, I decided to pursue a career in Biostatistics and integrate my knowledge in biological science with statistical and computational skills.

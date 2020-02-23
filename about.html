@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -237,6 +236,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -265,6 +265,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -359,7 +365,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Akbarnejad_resume.pdf">Resume</a>
+      <a href="resume_current.pdf">Resume</a>
     </li>
     <li>
       <a href="about.html">More</a>
@@ -421,7 +427,7 @@ div.tocify {
 </div>
 
 
-<p><a href="Akbarnejad_resume.pdf">Resume</a></p>
+<p><a href="resume_current.pdf">Resume</a></p>
 <p>When I was a graduate student at university of Tehran – the most reputable higher education institution in that country per various international rankings such as Academic Ranking of World Universities 2019. The university accepts from top 1% of high school graduates, every year –, I worked as a Graduate Research Associate where I used SAS extensively to analyze and visualize my lab work results and communicate them effectively with other research teams. My thesis project was focused on nanotoxicity of gold nano particles and how these widely used particles can affect stucture and function of key enzymes of human nervous systme. As another part of my research, I used Molecular Dynamic simulation techniques (Gromacs software) for modeling protein structure. During my graduate studies, the need for people with knowledge in statistics in the context of biology got highlighted for me. Fascinated by this area, I decided to pursue a career in Biostatistics and integrate my knowledge in biological science with statistical and computational skills.</p>
 <p>I also have teaching expeience and I am currently an active member and VP of Operations at Healthcare Data Analytics Organization at Mailman School of Public Health.</p>
 <p>I enjoy running half-marathons (and full marathons in near future), hiking, cooking, reading psychology, and tweeting in Farsi, my native language.</p>
