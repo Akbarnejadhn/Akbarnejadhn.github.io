@@ -19,7 +19,11 @@ output:
 **Welcome and thanks for visiting my website!**
 
 
-I am a first year MS student in Biostatistics with focus on Theory and Methods at Columbia University Mailman School of Public Health. I recieved a BS in Cell and Molecular Biology and MS in Nabobiotechnology from [University of Tehran](https://ut.ac.ir/en), in Tehran, Iran. I am ineterested in data analysis and handling, particularly statistical analysis including descriptive statistics, exploratory data analysis (EDA), and confirmatory data analysis (CDA) and statistical models. My ultimate goal is to have a role in improving lives through finding innovative solutions to solve problems in the public health sphere either by testing and developing new methods or evaluating and modifying available services.
+I am a first year MS student in Biostatistics with focus on Theory and Methods at Columbia University [Mailman School of Public Health](https://www.publichealth.columbia.edu/). I recieved a BS in Cell and Molecular Biology and MS in Nabobiotechnology from [University of Tehran](https://ut.ac.ir/en), in Tehran, Iran. I am ineterested in data analysis and handling, particularly statistical analysis and using statistical models to answer different questions.
+
+I will be working full-time as a Data Science Intern at [Solvuu](https://solvuu.com/) for Summer 2020, and I am also holding a Research Assistant position as a [Columbia Data Science Institute](https://datascience.columbia.edu/) Scholar, working on an NIH-funded project applying Machine Learning Methods for Opioid Policies Classification.
+
+My ultimate goal is to have a role in improving lives through finding innovative solutions to solve problems in the public health sphere either by testing and developing new methods or evaluating and modifying available services.
 
 Please feel free to learn more about my experieneces and interests, and find my resume in the [About Me](about.html) section linked above.
 

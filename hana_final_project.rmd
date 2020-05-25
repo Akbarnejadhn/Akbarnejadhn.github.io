@@ -1,0 +1,688 @@
+---
+title: "Machine Learning Approaches for the Prediction of Life Expectancy"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(viridis)
+library(ggplot2)
+library(readr)
+library(patchwork)
+
+library(caret)
+library(splines)
+library(mgcv)
+library(pdp)
+library(earth)
+library(modelr)
+library(ISLR)
+library(glmnet)
+library(corrplot)
+library(plotmo)
+library(pls)
+library(RANN)
+
+library(rpart)
+library(rpart.plot)
+library(party)
+library(partykit)
+library(randomForest)
+library(ranger)
+library(gbm)
+library(plotmo)
+library(pdp)
+library(lime)
+
+library(factoextra)
+library(gridExtra)
+library(corrplot)
+library(RColorBrewer)
+library(gplots)
+library(ISLR)
+library(lime)
+
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 8, 
+  fig.height = 6,
+  out.width = "90%"
+)
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+```
+
+# Introduction
+To increase life expectancy, it is of high importance to track the crucial factors that have contributed to having a high life expectancy in societies. Having that knowledge is a key factor in the field of public health since it can enable societies to come up with policies and initiatives that can eventually lead to prolonging lives. Moreover, prediction of life expectancy is one of the most important factors in end-of-life decision making, since having a sound and realistic anticipation of life expectancy can help individuals and the medical system determine the course of treatment. It can also be a determining factor when it comes to prognosticating health care services and facilities and deciding how to allocate them rationally in critical and challenging times. Also, investigating and comparing life expectancy in different societies helps to detect disparities to improve public health policies. To this end, this project focused on building a model to predict life expectancy using a dataset that contains life expectancy, as well as related information across different countries and years.
+
+```{r data, include=FALSE}
+
+### load data and general eda
+data = read_csv("./data/Life Expectancy Data.csv") %>% 
+  janitor::clean_names() %>% 
+  select(life_expectancy, everything())
+
+data_eda = data %>% 
+  drop_na() %>% 
+  mutate(
+    status = factor(status)
+  )
+
+data_summary = summary(data_eda)
+x_eda = model.matrix(life_expectancy ~ .-country, data_eda)[,-1]
+
+### data cleaning
+le_data = data %>%   # 16 columns of variables + response
+  select(life_expectancy, everything(), -country, -population, -infant_deaths, -gdp, -thinness_1_19_years) %>% 
+  mutate(
+    bmi = replace(bmi, bmi<10 | bmi > 50, NA),
+    under_five_deaths = replace(under_five_deaths, under_five_deaths == 0, NA),
+    status = factor(status)
+  ) %>%
+  drop_na(life_expectancy)
+
+# partition data into train and test
+trRows = createDataPartition(
+  le_data$life_expectancy,
+  p = .75, 
+  list = F)
+
+train = le_data[trRows,]
+test = le_data[-trRows,]
+
+# preprocess, fill out NA's using knn method
+trans = preProcess(train, method = c("knnImpute","YeoJohnson"), k = 5)
+data_train  = predict(trans, train)
+data_test = predict(trans, test)
+
+x_train = model.matrix(life_expectancy ~ ., data_train)[,-1]
+y_train = data_train$life_expectancy
+
+x_test = model.matrix(life_expectancy ~ ., data_test)[,-1] 
+y_test = data_test$life_expectancy
+
+
+control = trainControl(method = "CV", number = 5)
+```
+
+## Dataset Description
+In this project, I am working with *Life Expectancy* dataset. The dataset is obtained from *Kaggle (https://www.kaggle.com/kumarajarshi/life-expectancy-who)* which has been gathered from WHO and UN websites. The health-related factors for different countries has been collected from Global Health Observatory (GHO) data repository under WHO, and its corresponding economic data was collected from United Nation website.
+
+The original dataset has `r nrow(data)` observations of `r ncol(data)` variables, from `r unique(data$country) %>% length()` different countries. These variables include:*country*, *status*, *year*, *infant_death*, *adult_mortality*, *alcohol*, *percentage_expenditure*, *hepatitis_b*, *measles*, *bmi*, *under_five_death*, *polio*, *total_expenditure*, *diptheria*, *hiv_aid*, *gdp*, *population*, *thinness 5 to 9*, *thinness 10 to 19*, *income_composition_of_resources*, *schooling* (Full description of variables can be found in the Kaggle address provided).
+
+## Data Preparation and Cleaning
+I start with looking at variables and a quick check of the values, maximum and minimum and the number of NA's. The results show that there are problems associated with data including a lot of skewness and outliers, and lotf of missing values.
+
+I left out variable *country* for general analysis because I am interested in a general model for all countries. I also do not consider *population* in this question because the values seem to be in in-consistent units (millions and trillions) and many of them differ from countries population reported by official sources, so it might be misleading in models. Also, average *bmi* value for some countries are not reasonable and are very high or low, so I substituted values smaller than 10 or greater than 50 with NA. Also for  *under_five_deaths* it does not seem reasonable that a lof of countries had no death for children under age five, so I also substituted zero's with NA's.
+
+Also, correlation matrix from of dataset shows very high correlation between *infant_death* and *under_five_death* (0.98), between *percentage_expenditure* and *gdp*(0.96), and between *thinness_5_9* and *thinness_10_15* (0.93). So, I selected the ones that contain more information about life expectancy and have higher correlations with reponse: *under_five_death*, *percentage_expenditure*, *thinness_5_9*.
+
+From `r nrow(data)` observations, `r sum(!complete.cases(data))` contain missing values that. Additionally, the response (*life_expectancy*) contains 10 NA values but because there are not too many rows, I decided to drop those rows.
+
+# Exploratory Analysis/Visualization
+
+## Scatter Plots
+To look at trends, I looked at the scatter plots of all variables in my model against the life expectancy variable (See figure below), this is obtained from data after imputation process. It can be observed that schooling has an increasing relationship which makes a logical sense, and hiv_aids has a decreasing trend. We can also see that with increase in bmi, the overall life expectancy trend seem to increase which is not very reasonable, the same for diptheria and polio.In addition, we see some clustering through data that might be due to the fact that data is coming rom different countries, and should not be an issue in the final model. Also, we can see a lot of non-linearity going on in the data which makes us think that maybe a non-linear model to capture non-linearity of data, but we should do the analysis and see.
+
+```{r eda, echo=FALSE}
+# EDA featureplot
+theme1 = trellis.par.get()
+theme1$plot.symbol$col <- rgb(.2, .4, .2, .5)
+theme1$plot.symbol$pch <- 16
+theme1$plot.line$col <- rgb(.8, .1, .1, 1)
+theme1$plot.line$lwd <- 2
+theme1$strip.background$col <- rgb(.0, .2, .6, .2)
+trellis.par.set(theme1)
+featurePlot(x_train, y_train, plot = "scatter", labels = c("","Life Expectancy"),
+type = c("p", "smooth"), layout = c(5, 5))
+```
+
+## Hierarchical Clustering
+Hierarchical clustering is an unsupervised learning method, and an algorithm that groups similar objects into distinct groups, where the objects within each cluster are broadly similar to each other. I used this method to look for homogeneous subgroups among the observations in the training set. Groupping the dataset by country, I took the average of each avariable in the dataset over years. I chose the desired number of resulting clusters as four, and used **Complete linkage** was used to achieve maximal inter-cluster dissimilarity and to obtain compact clusters. The result can be seen in the dendrogram and the table below.
+
+```{r clustering_data, include=FALSE, cache=TRUE}
+
+# data for clustering
+data1 = read_csv("Life Expectancy Data.csv") %>% 
+  janitor::clean_names()
+
+### data cleaning
+le_data1 = data1 %>%   # 16 columns of variables + response
+  mutate(
+    bmi = replace(bmi, bmi<10 | bmi > 50, NA),
+    under_five_deaths = replace(under_five_deaths, under_five_deaths == 0, NA),
+    status = as.numeric(as.factor(status))
+  ) %>%
+  drop_na(life_expectancy) %>% 
+  select(life_expectancy, everything(), -population, -infant_deaths, -gdp, -thinness_1_19_years)
+
+# partition data into train and test
+trRows1 = createDataPartition(
+  le_data1$life_expectancy,
+  p = .75, 
+  list = F)
+
+train1 = le_data1[trRows1,]
+test1 = le_data1[-trRows1,]
+
+# preprocess, fill out NA's using knnmethod
+trans1 = preProcess(train1, method = c("knnImpute","YeoJohnson"), k = 5)
+data_train1 = predict(trans1, train1)
+data_test1 = predict(trans1, test1)
+
+x_train1 = model.matrix(life_expectancy ~ ., data_train1)[,-1]
+y_train1 = data_train1$life_expectancy
+
+x_test1 = model.matrix(life_expectancy ~ ., data_test1)[,-1] 
+y_test1 = data_test1$life_expectancy
+```
+
+```{r clustering, echo= FALSE, cache=TRUE, fig.width = 18, fig.height=10}
+
+cluster_data = data_train1 %>% 
+  group_by(country) %>% 
+  summarize(
+    status = mean(status),
+    adult_mortality = mean(adult_mortality),
+    alcohol = mean(alcohol),
+    percentage_expenditure = mean(percentage_expenditure),
+    hepatitis_b = mean(hepatitis_b),
+    measles = mean(measles),
+    bmi = mean(bmi),
+    under_five_deaths = mean(under_five_deaths),
+    polio = mean(polio),
+    total_expenditure = mean(total_expenditure),
+    diphtheria = mean(diphtheria),
+    hiv_aids = mean(hiv_aids),
+    thinness_5_9_years = mean(thinness_5_9_years),
+    income_composition_of_resources = mean(income_composition_of_resources),
+    schooling = mean(schooling)
+  ) %>% 
+  remove_rownames %>% column_to_rownames(var= "country")
+
+#uclidean distance and different types of linkage
+hc.complete = hclust(dist(cluster_data), method = "complete")
+
+# visualize the dendrogram, choosing k=4 helps to end up wth reasonable #countries in each cluster
+fviz_dend(hc.complete, k = 4,
+          cex = 0.3,
+          palette = "jco",
+          color_labels_by_k = TRUE,
+          rect = TRUE, rect_fill = TRUE, rect_border = "jco",
+          labels_track_height = 3)
+
+# check who are in each cluster
+ind4.complete <- cutree(hc.complete, 4)
+cluster_4 = cluster_data[ind4.complete == 4,]
+cluster_3 = cluster_data[ind4.complete == 3,]
+cluster_2 = cluster_data[ind4.complete == 2,]
+cluster_1 = cluster_data[ind4.complete == 1,]
+```
+
+```{r summary_cluster, echo= FALSE, cache=TRUE, fig.width = 18}
+
+# making the same dataset, but this time it includes the response, just to compare different variables and the outcome
+# in each cluster and see if the trend makes any sense.
+cluster_sum_data = data_train1 %>% 
+  group_by(country) %>% 
+  summarize(
+    life_expectancy = mean(life_expectancy),
+    status = mean(status),
+    adult_mortality = mean(adult_mortality),
+    alcohol = mean(alcohol),
+    percentage_expenditure = mean(percentage_expenditure),
+    hepatitis_b = mean(hepatitis_b),
+    measles = mean(measles),
+    bmi = mean(bmi),
+    under_five_deaths = mean(under_five_deaths),
+    polio = mean(polio),
+    total_expenditure = mean(total_expenditure),
+    diphtheria = mean(diphtheria),
+    hiv_aids = mean(hiv_aids),
+    thinness_5_9_years = mean(thinness_5_9_years),
+    income_composition_of_resources = mean(income_composition_of_resources),
+    schooling = mean(schooling)
+  ) %>% 
+  remove_rownames %>% column_to_rownames(var= "country")
+
+df1 = cluster_1 %>% 
+  summarise(
+    status = mean(status),
+    adult_mortality = mean(adult_mortality),
+    alcohol = mean(alcohol),
+    percentage_expenditure = mean(percentage_expenditure),
+    hepatitis_b = mean(hepatitis_b),
+    measles = mean(measles),
+    bmi = mean(bmi),
+    under_five_deaths = mean(under_five_deaths),
+    polio = mean(polio),
+    total_expenditure = mean(total_expenditure),
+    diphtheria = mean(diphtheria),
+    hiv_aids = mean(hiv_aids),
+    thinness_5_9_years = mean(thinness_5_9_years),
+    income_composition_of_resources = mean(income_composition_of_resources),
+    schooling = mean(schooling)
+  )
+
+rows <- which(row.names(cluster_3) %in% row.names(cluster_sum_data))
+df <- cluster_sum_data[rows,]
+
+le1 = cluster_sum_data %>%
+  filter(
+    row.names(cluster_sum_data) %in% row.names(cluster_1)
+  ) %>%
+  summarize(
+    life_expectancy = mean(life_expectancy),
+    status = mean(status),
+    adult_mortality = mean(adult_mortality),
+    alcohol = mean(alcohol),
+    percentage_expenditure = mean(percentage_expenditure),
+    hepatitis_b = mean(hepatitis_b),
+    measles = mean(measles),
+    bmi = mean(bmi),
+    under_five_deaths = mean(under_five_deaths),
+    polio = mean(polio),
+    total_expenditure = mean(total_expenditure),
+    diphtheria = mean(diphtheria),
+    hiv_aids = mean(hiv_aids),
+    thinness_5_9_years = mean(thinness_5_9_years),
+    income_composition_of_resources = mean(income_composition_of_resources),
+    schooling = mean(schooling)
+  )
+
+le2 = cluster_sum_data %>%
+  filter(
+    row.names(cluster_sum_data) %in% row.names(cluster_2)
+  ) %>%
+  summarize(
+    life_expectancy = mean(life_expectancy),
+    status = mean(status),
+    adult_mortality = mean(adult_mortality),
+    alcohol = mean(alcohol),
+    percentage_expenditure = mean(percentage_expenditure),
+    hepatitis_b = mean(hepatitis_b),
+    measles = mean(measles),
+    bmi = mean(bmi),
+    under_five_deaths = mean(under_five_deaths),
+    polio = mean(polio),
+    total_expenditure = mean(total_expenditure),
+    diphtheria = mean(diphtheria),
+    hiv_aids = mean(hiv_aids),
+    thinness_5_9_years = mean(thinness_5_9_years),
+    income_composition_of_resources = mean(income_composition_of_resources),
+    schooling = mean(schooling)
+  )
+  
+le3 = cluster_sum_data %>%
+  filter(
+    row.names(cluster_sum_data) %in% row.names(cluster_3)
+  ) %>%
+  summarize(
+    life_expectancy = mean(life_expectancy),
+    status = mean(status),
+    adult_mortality = mean(adult_mortality),
+    alcohol = mean(alcohol),
+    percentage_expenditure = mean(percentage_expenditure),
+    hepatitis_b = mean(hepatitis_b),
+    measles = mean(measles),
+    bmi = mean(bmi),
+    under_five_deaths = mean(under_five_deaths),
+    polio = mean(polio),
+    total_expenditure = mean(total_expenditure),
+    diphtheria = mean(diphtheria),
+    hiv_aids = mean(hiv_aids),
+    thinness_5_9_years = mean(thinness_5_9_years),
+    income_composition_of_resources = mean(income_composition_of_resources),
+    schooling = mean(schooling)
+  )
+
+le4 = cluster_sum_data %>%
+  filter(
+    row.names(cluster_sum_data) %in% row.names(cluster_4)
+  ) %>%
+  summarize(
+    life_expectancy = mean(life_expectancy),
+    status = mean(status),
+    adult_mortality = mean(adult_mortality),
+    alcohol = mean(alcohol),
+    percentage_expenditure = mean(percentage_expenditure),
+    hepatitis_b = mean(hepatitis_b),
+    measles = mean(measles),
+    bmi = mean(bmi),
+    under_five_deaths = mean(under_five_deaths),
+    polio = mean(polio),
+    total_expenditure = mean(total_expenditure),
+    diphtheria = mean(diphtheria),
+    hiv_aids = mean(hiv_aids),
+    thinness_5_9_years = mean(thinness_5_9_years),
+    income_composition_of_resources = mean(income_composition_of_resources),
+    schooling = mean(schooling)
+  )
+
+summary = bind_rows(le1, le2, le3, le4)
+row_names = c("Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4") %>%  data.frame()
+table_clusters = bind_cols(row_names, summary) %>% knitr::kable()
+table_clusters
+```
+
+Takeing a look at countries in each cluster, we can see that the ones that has ended up in the same cluster make intutive sense. For example, most of the African countries appear in cluster 4 and most of the more "developed" countries such as United States, Japan, Australia, and Canada appeared in cluster 2, so it appears that the clustering step was successful in finding homogeneous subgroups among the observations. The above table shows the average value of all variables across each cluster created. We can see that the overall relationships between these variables and the response is in agreement with the scatter plots that have been included earlier. For example, the higher the number of years of *schooling*, the higher the *life_expectancy*.Also, an increase in the value of *hiv_aids* appears to decrease *life_expectancy*. 
+
+## PCA
+Principal Component Analysis (PCA) looks for a low-dimensional representation of the observations that explains a good fraction of the variance. Like clustering, it is an unsupervised learning method, and it utilizes the dependencies between variables. Figures below show PCA results:
+
+```{r PCA, cache=TRUE, echo=FALSE, warning = FALSE, message = FALSE, fig.width = 18, fig.height = 23}
+
+pca = prcomp(cluster_data)
+
+scree_plot = fviz_eig(pca, addlabels = TRUE)
+scree_plot
+
+a = fviz_contrib(pca, choice = "var", axes = 1) 
+b = fviz_contrib(pca, choice = "var", axes = 2) 
+a/b
+
+pca_var = fviz_pca_var(
+  pca, 
+  col.var = "contrib", 
+  gradient.cols = c("darkblue", "blue","deepskyblue", "green", "darkgreen"),
+  repel = TRUE)
+pca_var
+
+pca_ind = fviz_pca_ind(
+  pca,
+  col.ind = cluster_sum_data$life_expectancy,
+  gradient.cols = c("darkblue", "blue","deepskyblue", "green", "darkgreen"),
+  repel = TRUE,
+  alpha.ind = 0.7)
+pca_ind
+```
+
+**Scree Plot:**, Scree plot plots the eigenvalues/variances against the number of dimensions. We can see that `r round(scree_plot$data$eig[1]+scree_plot$data$eig[2]+scree_plot$data$eig[3]+scree_plot$data$eig[4]+scree_plot$data$eig[5], digits = 2)`% of the total variance can be explained using the first five principal components. Next plots can be used to visualize the contribution of variables from the results of PCA to first and second principle components.
+
+**Variables PCA Plot:** This plot shows the contributions of all predictors to the first and second principal components. It can be observed that *schooling*, *bmi*, *income_composition_of_resources*, *hiv_aids*, and *thinness_5_9_years* have the highest contribution to the first principal component, while *thinness_5_9_years*, *hepatitis_b*, *polio*, *diphtheria*, and *alcohol* have the largest contribution to the second principal component. 
+
+The plot suggests that a large average life_expectancy can be found in countries in which the number of years of *schooling*, the average `bmi`, and the *income_composition_of_resources* is relatively large, while the values for *thinness_5_9_years* and *hiv_aids* are very close to zero.
+
+**Individuals PCA Plot:** This plot depicts all countries contained in the training dataset in a plane spanned by the first and second principal components. Each country is color-coded: The countries that have a larger life_expectancy than the overall average life_expectancy in dataset are coded as green, and the ones with a lower mean life_expectancy compared to the overall average are coded blue. It can be observed that most of the countries with the highest mean life_expectancy can be found in the lower right corner, while most countries with the lowest mean life_expectancy are located in the lower left corner. Apparently, a positive first principal component value tends to coincide with a larger than average mean life_expectancy, while a negative first principal component value tends to coincide with a lower than average mean life_expectancy. 
+
+# Models and Analysis
+Since the goal of this project is to build a model to predict `life_expectancy`, the dataset was partitioned into a training and a test dataset (3:1 ratio). Since the number of NA values was high, the **knn imputation model** was applied to estimate the missing values using nearest neighbors. The predictors that have ended up being in our models in the end were *year*, *status*, *adult_mortality*, *alcohol*, *percentage_expenditure*, *hepatitis_b*, *measles*, *bmi*, *under_five_deaths*, *polio*, *total_expenditure*, *diphtheria*, *hiv_aids*, *thinness_5_9_years*, *income_composition_of_resources*, and *schooling*.
+
+Then different model types were fitted using the **caret** package and the training dataset:
+
+* **linear regression**, **ridge regression**, **lasso**, **principle component regression (PCR)**, **partial least squares (PLS)** and **elastic net**, which all assume a linear relationship between the response and the predictors, 
+
+* **generalized additive model (GAM)** and **multivariate adaptive regression splines (MARS)**, which can capture non-linear trends between the reponse and the predictors
+
+* **tree-based methods**, which are non-parametric, with no prior assumption about linearity or non-linearity between the response and the predictors. In particular, a **CART tree**, a **conditional inference tree** (stopping criterion is based on p-values), and the ensemble methods **bagging**, **random forest**, and **boosting**, which use a collection of several trees to improve predictive performance compared to single trees, were employed.
+
+**5-fold cross-validation** was employed to obtain the cross-validated $RMSE$ error. This measure was used to first compare models within each model type, i.e., for choosing the tuning parameter(s) (the only exception to this was the linear regression model which does not have any tuning parameters), and then for the comparison between models in order to find the best model type among the model types considered.  
+
+# Results
+```{r linear_model, include=FALSE}
+set.seed(2020)
+
+# fit lm model using training data
+lm_fit = train(x_train, y_train,
+              method = "lm",
+              trControl = control)
+# summary(lm_fit)
+# predict model using training model and test data
+# lm_pred = predict(lm_fit, x_test)
+# calculating MSE using training and test models
+# lm_rmse = ModelMetrics::rmse(lm_pred, data_test$life_expectancy) #0.4125941
+```
+
+```{r ridge_model, include=FALSE}
+
+set.seed(2020)
+ridge_fit = train(x_train, y_train,
+                  method = "glmnet",
+                  tuneGrid = expand.grid(alpha = 0,
+                                        lambda = exp(seq(-5, 5, length = 500))),
+                  preProc = c("center", "scale"),
+                  trControl = control)
+
+
+# plot the parameters over RMSE to choose the best option
+ridge_plot = plot(ridge_fit, xTrans = function(x) log(x))   
+ridge_lambda = ridge_fit$bestTune                                     
+```
+
+```{r lasso_model, include=FALSE}
+
+set.seed(2020)
+# fitting lasso regression, we should set alpha as 1
+lasso_fit = train(x_train, y_train,
+                  method = "glmnet",
+                  tuneGrid = expand.grid(alpha = 1,
+                                         lambda = exp(seq(-10, 0, length = 500))),
+            preProc = c("center", "scale"),
+            trControl = control)
+
+lasso_plot = plot(lasso_fit, xTrans = function(x) log(x)) 
+lasso_lambda = lasso_fit$bestTune                       
+```
+
+```{r enet_model, include=FALSE}
+
+set.seed(2020)  
+enet_fit = train(x_train, y_train,
+                 method = "glmnet", 
+                 tuneGrid = expand.grid(
+                   alpha = seq(0, 1, length = 5),
+                   lambda = (seq(-1, 1, length = 1000))),
+                 trControl = control)
+
+ggplot(enet_fit, highlight = TRUE)
+enet_fit$bestTun
+```
+
+```{r pcr_model, include=FALSE}
+
+set.seed(2020)
+pcr_fit = train(x_train, y_train,
+                method = "pcr",
+                tuneGrid = data.frame(ncomp = 1:16),
+                trControl = control,
+                scale = TRUE)
+
+pcr_m = pcr_fit$bestTune #15
+pcr_plot = ggplot(pcr_fit, highlight = TRUE) + theme_bw()
+```
+
+```{r pls_model, include=FALSE}
+
+set.seed(2020)
+pls_fit = train(x_train, y_train,
+                method = "pls",
+                tuneGrid = data.frame(ncomp = 1:16),
+                trControl = control,
+                scale = TRUE)
+```
+
+```{r gam_model, include=FALSE}
+
+set.seed(2020)
+gam_fit = train(x_train, y_train,
+                method = "gam",
+                tuneGrid = data.frame(
+                        method = "GCV.Cp", 
+                        select = c(TRUE,FALSE)),
+                trControl = control)
+ga_besttune = gam_fit$bestTune
+gam_finalmodel = gam_fit$finalModel
+```
+
+```{r mars_model, include=FALSE}
+
+mars_grid = expand.grid(degree = 1:2,
+                        nprune = 2:40)
+set.seed(2020)
+mars_fit = train(x_train, y_train, method = "earth",
+                tuneGrid = mars_grid,
+                trControl = control)
+
+mars_plot = ggplot(mars_fit)
+mars_besttune = mars_fit$bestTune #29, degree 2
+```
+
+```{r tree_cart, cache=TRUE, include=FALSE}
+
+set.seed(2020)
+# tune over cp, method = "rpart"
+cart_cp_fit = train(life_expectancy~., data_train,
+                    method = "rpart",
+                    tuneGrid = data.frame(cp = exp(seq(-40,-10, length = 100))),
+                    trControl = control)
+
+cart_plot = ggplot(cart_cp_fit, highlight = TRUE)
+cart_diagram = rpart.plot(cart_cp_fit$finalModel)
+```
+
+```{r tree_conditional_inference, cache=TRUE, include=FALSE}
+
+set.seed(2020)
+conditional_inference_fit = train(life_expectancy~., data_train,
+                                  method = "ctree",
+                                  tuneGrid = data.frame(mincriterion = 1-exp(seq(-25, -10, length = 100))),
+                                  trControl = control)
+conditional_plot = ggplot(conditional_inference_fit, highlight = TRUE)
+```
+
+```{r rf, cache = TRUE, include=FALSE}
+
+rf_grid = expand.grid(mtry = 1:6,
+                      splitrule = "variance",
+                      min.node.size = 1:6)
+
+set.seed(2020)
+rf_fit = train(life_expectancy~., data_train,
+               method = "ranger",
+               tuneGrid = rf_grid,
+               trControl = control)
+
+rf_plot = ggplot(rf_fit, highlight = TRUE)
+rf_values = rf_fit$finalModel$tuneValue
+```
+
+```{r bagging, cache=TRUE, include=FALSE}
+
+bagging_grid = expand.grid(mtry = 16, # number of variables
+                          splitrule = "variance",
+                          min.node.size = 1:16)
+set.seed(2020)
+bagging_fit = train(life_expectancy~., data = data_train,
+                    method = "ranger",
+                    tuneGrid = bagging_grid,
+                    trControl = control)
+
+bagging_plot = ggplot(bagging_fit, highlight = TRUE)
+bagging_values = bagging_fit$finalModel$tuneValue
+```
+
+```{r boosting, cache=TRUE, include=FALSE}
+
+gbm_grid = expand.grid(n.trees = 9500,
+                        interaction.depth = 10, #10 # substituted with the best valued figured out, for computation time ourposes
+                        shrinkage = 0.017, #0.017
+                        n.minobsinnode = 2)
+set.seed(2020)
+gbm_fit = train(life_expectancy~., data_train,
+                method = "gbm",
+                tuneGrid = gbm_grid,
+                trControl = control,
+                verbose = FALSE)
+
+# ggplot(gbm_fit, highlight = TRUE) can't have a graph because I used the already tuned numbers to make my "grid"
+gbm_values = gbm_fit$finalModel$tuneValue
+```
+
+The figure below shows the median of the cross-validated $RMSE$ error for all aforementioned fitted models. It can be observed that the **Boosting model** is the best model among all and it is chosen as the final model, because it has the smallest value of median cross-validated $RMSE$ compared to others. 
+
+```{r model_comparison, echo=FALSE}
+
+resamp = resamples( 
+  list(
+    lm = lm_fit,
+    ridge = ridge_fit, 
+    lasso = lasso_fit, 
+    enet = enet_fit,
+    pcr = pcr_fit,
+    pls = pls_fit,
+    gam = gam_fit,
+    MARS = mars_fit,
+    cart = cart_cp_fit,
+    conditional = conditional_inference_fit,
+    bagging = bagging_fit,
+    random_forest = rf_fit,
+    boosting = gbm_fit))
+resamp_summary = summary(resamp, metric = "RMSE")
+boxplot_resamples = bwplot(resamp, metric = "RMSE")
+boxplot_resamples
+```
+
+```{r test_error, include=FALSE}
+
+boosting_pred = predict(gbm_fit, data_test)
+boosting_rmse = ModelMetrics::rmse(boosting_pred, data_test$life_expectancy)
+```
+
+```{r varimp, echo=FALSE, fig.width = 10, fig.height = 5}
+
+gbm_varimp = summary(gbm_fit$finalModel, las = 2, cBars = 16, cex.names = 0.6)
+```
+
+The chosen Boosting model has 9500 number of trees, the interaction depth of 10, the shrinkage of 0.017, and the minimum number of samples in tree terminal nodes of 2.
+
+To evaluate the model's performance on the test data, the $RMSE_{test}$ was evaluated which is `r round(boosting_rmse, 4) * 100`%.
+
+The plot below shows the five most important variable in the final boosting model are *income_composition_of_resources*, *hiv_aids*, *adult_mortality*, *thinness_5_9_years*, and *schooling*. 
+
+# Conclusions
+Individual Conditional Expectation (ICE) plots display one line per instance that shows how the instance’s prediction changes when a feature changes. Also one average red line is also provided which is equivalent to Partial Dependence Plot (PDP). 
+
+For example, the model suggests that *life_expectancy* first decreases slightly and then increases with an increase in *income_composition_of_resources*. Moreover, the model implies that, *life_expectancy* decreases with an increased *hiv_aids* death rate. Both results align with the observations made during EDA. Also, the relationship between *adult_mortality* and *life_expectancy* seems to jump up and down a bit at first, but, subsequently, decrease with increased *adult mortality*. This result partially agrees with the observations made during EDA, at which time we saw first a slight increase and a subsequent decrease in *life expectancy*. Finally, on average, an increase in the number of years of *schooling* tends to result, after a short decline, in a higher *life_expectancy*. Except for the decline in the beginning, this coincides with the observations made during EDA.
+```{r ice, echo=FALSE}
+
+ice_incom = gbm_fit %>%
+  pdp::partial(pred.var = "income_composition_of_resources",
+          grid.resolution = 20,
+          ice = TRUE) %>%
+  autoplot(rug = TRUE, train = data_train, center= TRUE)
+
+ice_mortality = gbm_fit %>%
+  pdp::partial(pred.var = "adult_mortality",
+          grid.resolution = 20,
+          ice = TRUE) %>%
+  autoplot(rug = TRUE, train = data_train, center= TRUE)
+
+ice_aids = gbm_fit %>%
+  pdp::partial(pred.var = "hiv_aids",
+          grid.resolution = 20,
+          ice = TRUE) %>%
+  autoplot(rug = TRUE, train = data_train, center= TRUE)
+
+ice_schooling = gbm_fit %>%
+  pdp::partial(pred.var = "schooling",
+          grid.resolution = 20,
+          ice = TRUE) %>%
+  autoplot(rug = TRUE, train = data_train, center= TRUE)
+
+(ice_incom + ice_mortality)/(ice_aids + ice_schooling)
+```
+

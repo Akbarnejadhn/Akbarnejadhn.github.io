@@ -11,6 +11,10 @@ navbar:
         href: about.html
     - text: "Sample Projects"
       menu:
+      - text: "Life Expectancy Prediction"
+        href: hana_final_project.html
+      - text: "Investigating Gender-based Salary Discrimination"
+        href: Report.html
       - text: "Posture and Horns!"
         href: p8105_mtp_ha2546.html
       - text: "NY Opioid Crisis"
@@ -21,8 +25,6 @@ navbar:
           href: plotly.html
         - text: "Dashboard"
           href: test.html
-      - text: "Salary Discrimination?"
-        href: Report.html
     - icon: fa-github fa-lg
       href: http://github.com/Akbarnejadhn
     - icon: fa-linkedin

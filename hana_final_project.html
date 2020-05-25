@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Machine Learning Approaches for the Prediction of Life Expectancy</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="mailto:&lt;ha2546@cumc.columbia.edu&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    About Me
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resume_current.pdf">Resume</a>
+    </li>
+    <li>
+      <a href="about.html">More</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sample Projects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="p8105_mtp_ha2546.html">Posture and Horns!</a>
+    </li>
+    <li>
+      <a href="index_report.html">NY Opioid Crisis</a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">NY Restaurants</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="plotly.html">Plotly</a>
+        </li>
+        <li>
+          <a href="test.html">Dashboard</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="Report.html">Salary Discrimination?</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="http://github.com/Akbarnejadhn">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://linkedin.com/in/hakbarnejad">
+    <span class="fa fa-linkedin"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Machine Learning Approaches for the Prediction of Life Expectancy</h1>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>To increase life expectancy, it is of high importance to track the crucial factors that have contributed to having a high life expectancy in societies. Having that knowledge is a key factor in the field of public health since it can enable societies to come up with policies and initiatives that can eventually lead to prolonging lives. Moreover, prediction of life expectancy is one of the most important factors in end-of-life decision making, since having a sound and realistic anticipation of life expectancy can help individuals and the medical system determine the course of treatment. It can also be a determining factor when it comes to prognosticating health care services and facilities and deciding how to allocate them rationally in critical and challenging times. Also, investigating and comparing life expectancy in different societies helps to detect disparities to improve public health policies. To this end, this project focused on building a model to predict life expectancy using a dataset that contains life expectancy, as well as related information across different countries and years.</p>
+<div id="dataset-description" class="section level2">
+<h2>Dataset Description</h2>
+<p>In this project, I am working with <em>Life Expectancy</em> dataset. The dataset is obtained from <em>Kaggle (<a href="https://www.kaggle.com/kumarajarshi/life-expectancy-who" class="uri">https://www.kaggle.com/kumarajarshi/life-expectancy-who</a>)</em> which has been gathered from WHO and UN websites. The health-related factors for different countries has been collected from Global Health Observatory (GHO) data repository under WHO, and its corresponding economic data was collected from United Nation website.</p>
+<p>The original dataset has 2938 observations of 22 variables, from 193 different countries. These variables include:<em>country</em>, <em>status</em>, <em>year</em>, <em>infant_death</em>, <em>adult_mortality</em>, <em>alcohol</em>, <em>percentage_expenditure</em>, <em>hepatitis_b</em>, <em>measles</em>, <em>bmi</em>, <em>under_five_death</em>, <em>polio</em>, <em>total_expenditure</em>, <em>diptheria</em>, <em>hiv_aid</em>, <em>gdp</em>, <em>population</em>, <em>thinness 5 to 9</em>, <em>thinness 10 to 19</em>, <em>income_composition_of_resources</em>, <em>schooling</em> (Full description of variables can be found in the Kaggle address provided).</p>
+</div>
+<div id="data-preparation-and-cleaning" class="section level2">
+<h2>Data Preparation and Cleaning</h2>
+<p>I start with looking at variables and a quick check of the values, maximum and minimum and the number of NA’s. The results show that there are problems associated with data including a lot of skewness and outliers, and lotf of missing values.</p>
+<p>I left out variable <em>country</em> for general analysis because I am interested in a general model for all countries. I also do not consider <em>population</em> in this question because the values seem to be in in-consistent units (millions and trillions) and many of them differ from countries population reported by official sources, so it might be misleading in models. Also, average <em>bmi</em> value for some countries are not reasonable and are very high or low, so I substituted values smaller than 10 or greater than 50 with NA. Also for <em>under_five_deaths</em> it does not seem reasonable that a lof of countries had no death for children under age five, so I also substituted zero’s with NA’s.</p>
+<p>Also, correlation matrix from of dataset shows very high correlation between <em>infant_death</em> and <em>under_five_death</em> (0.98), between <em>percentage_expenditure</em> and <em>gdp</em>(0.96), and between <em>thinness_5_9</em> and <em>thinness_10_15</em> (0.93). So, I selected the ones that contain more information about life expectancy and have higher correlations with reponse: <em>under_five_death</em>, <em>percentage_expenditure</em>, <em>thinness_5_9</em>.</p>
+<p>From 2938 observations, 1289 contain missing values that. Additionally, the response (<em>life_expectancy</em>) contains 10 NA values but because there are not too many rows, I decided to drop those rows.</p>
+</div>
+</div>
+<div id="exploratory-analysisvisualization" class="section level1">
+<h1>Exploratory Analysis/Visualization</h1>
+<div id="scatter-plots" class="section level2">
+<h2>Scatter Plots</h2>
+<p>To look at trends, I looked at the scatter plots of all variables in my model against the life expectancy variable (See figure below), this is obtained from data after imputation process. It can be observed that schooling has an increasing relationship which makes a logical sense, and hiv_aids has a decreasing trend. We can also see that with increase in bmi, the overall life expectancy trend seem to increase which is not very reasonable, the same for diptheria and polio.In addition, we see some clustering through data that might be due to the fact that data is coming rom different countries, and should not be an issue in the final model. Also, we can see a lot of non-linearity going on in the data which makes us think that maybe a non-linear model to capture non-linearity of data, but we should do the analysis and see.</p>
+<p><img src="hana_final_project_files/figure-html/eda-1.png" width="90%" /></p>
+</div>
+<div id="hierarchical-clustering" class="section level2">
+<h2>Hierarchical Clustering</h2>
+<p>Hierarchical clustering is an unsupervised learning method, and an algorithm that groups similar objects into distinct groups, where the objects within each cluster are broadly similar to each other. I used this method to look for homogeneous subgroups among the observations in the training set. Groupping the dataset by country, I took the average of each avariable in the dataset over years. I chose the desired number of resulting clusters as four, and used <strong>Complete linkage</strong> was used to achieve maximal inter-cluster dissimilarity and to obtain compact clusters. The result can be seen in the dendrogram and the table below.</p>
+<p><img src="hana_final_project_files/figure-html/clustering-1.png" width="90%" /></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">.</th>
+<th align="right">life_expectancy</th>
+<th align="right">status</th>
+<th align="right">adult_mortality</th>
+<th align="right">alcohol</th>
+<th align="right">percentage_expenditure</th>
+<th align="right">hepatitis_b</th>
+<th align="right">measles</th>
+<th align="right">bmi</th>
+<th align="right">under_five_deaths</th>
+<th align="right">polio</th>
+<th align="right">total_expenditure</th>
+<th align="right">diphtheria</th>
+<th align="right">hiv_aids</th>
+<th align="right">thinness_5_9_years</th>
+<th align="right">income_composition_of_resources</th>
+<th align="right">schooling</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Cluster 1</td>
+<td align="right">-1.0358218</td>
+<td align="right">0.4715593</td>
+<td align="right">0.4824182</td>
+<td align="right">-0.8283975</td>
+<td align="right">-0.5261894</td>
+<td align="right">-1.0993955</td>
+<td align="right">1.0604419</td>
+<td align="right">-0.7936534</td>
+<td align="right">1.1762824</td>
+<td align="right">-1.1791252</td>
+<td align="right">-0.4048522</td>
+<td align="right">-1.1831995</td>
+<td align="right">0.6147397</td>
+<td align="right">0.9115788</td>
+<td align="right">-0.8759343</td>
+<td align="right">-1.1389372</td>
+</tr>
+<tr class="even">
+<td align="left">Cluster 2</td>
+<td align="right">0.3462268</td>
+<td align="right">0.4715593</td>
+<td align="right">-0.2214565</td>
+<td align="right">-0.0306796</td>
+<td align="right">0.0486231</td>
+<td align="right">0.2136767</td>
+<td align="right">-0.3576762</td>
+<td align="right">0.9708144</td>
+<td align="right">-0.4056657</td>
+<td align="right">0.3714585</td>
+<td align="right">-0.0061505</td>
+<td align="right">0.3673715</td>
+<td align="right">-0.4748769</td>
+<td align="right">-0.1722001</td>
+<td align="right">0.2204755</td>
+<td align="right">0.2291175</td>
+</tr>
+<tr class="odd">
+<td align="left">Cluster 3</td>
+<td align="right">1.1608582</td>
+<td align="right">-2.1196592</td>
+<td align="right">-0.6875193</td>
+<td align="right">1.0266883</td>
+<td align="right">0.6869509</td>
+<td align="right">0.3248382</td>
+<td align="right">-0.0931300</td>
+<td align="right">1.2253779</td>
+<td align="right">-0.5424867</td>
+<td align="right">0.5696743</td>
+<td align="right">0.5613883</td>
+<td align="right">0.5892783</td>
+<td align="right">-0.6974419</td>
+<td align="right">-1.0380005</td>
+<td align="right">0.9851548</td>
+<td align="right">1.1136759</td>
+</tr>
+<tr class="even">
+<td align="left">Cluster 4</td>
+<td align="right">-1.1263304</td>
+<td align="right">0.4715593</td>
+<td align="right">0.8107649</td>
+<td align="right">-0.4163977</td>
+<td align="right">-0.3542296</td>
+<td align="right">-0.4980429</td>
+<td align="right">0.1803515</td>
+<td align="right">-0.3247771</td>
+<td align="right">0.1923423</td>
+<td align="right">-0.5960124</td>
+<td align="right">-0.1645021</td>
+<td align="right">-0.6188122</td>
+<td align="right">1.3914038</td>
+<td align="right">0.7966291</td>
+<td align="right">-0.8587355</td>
+<td align="right">-0.8156608</td>
+</tr>
+</tbody>
+</table>
+<p>Takeing a look at countries in each cluster, we can see that the ones that has ended up in the same cluster make intutive sense. For example, most of the African countries appear in cluster 4 and most of the more “developed” countries such as United States, Japan, Australia, and Canada appeared in cluster 2, so it appears that the clustering step was successful in finding homogeneous subgroups among the observations. The above table shows the average value of all variables across each cluster created. We can see that the overall relationships between these variables and the response is in agreement with the scatter plots that have been included earlier. For example, the higher the number of years of <em>schooling</em>, the higher the <em>life_expectancy</em>.Also, an increase in the value of <em>hiv_aids</em> appears to decrease <em>life_expectancy</em>.</p>
+</div>
+<div id="pca" class="section level2">
+<h2>PCA</h2>
+<p>Principal Component Analysis (PCA) looks for a low-dimensional representation of the observations that explains a good fraction of the variance. Like clustering, it is an unsupervised learning method, and it utilizes the dependencies between variables. Figures below show PCA results:</p>
+<p><img src="hana_final_project_files/figure-html/PCA-1.png" width="90%" /><img src="hana_final_project_files/figure-html/PCA-2.png" width="90%" /><img src="hana_final_project_files/figure-html/PCA-3.png" width="90%" /><img src="hana_final_project_files/figure-html/PCA-4.png" width="90%" /></p>
+<p><strong>Scree Plot:</strong>, Scree plot plots the eigenvalues/variances against the number of dimensions. We can see that 83.08% of the total variance can be explained using the first five principal components. NExt plots can be used to visualize the contribution of variables from the results of PCA to first and second principle components.</p>
+<p><strong>Variables PCA Plot:</strong> This plot shows the contributions of all predictors to the first and second principal components. It can be observed that <em>schooling</em>, <em>bmi</em>, <em>income_composition_of_resources</em>, <em>hiv_aids</em>, and <em>thinness_5_9_years</em> have the highest contribution to the first principal component, while <em>thinness_5_9_years</em>, <em>hepatitis_b</em>, <em>polio</em>, <em>diphtheria</em>, and <em>alcohol</em> have the largest contribution to the second principal component.</p>
+<p>The plot suggests that a large average life_expectancy can be found in countries in which the number of years of <em>schooling</em>, the average <code>bmi</code>, and the <em>income_composition_of_resources</em> is relatively large, while the values for <em>thinness_5_9_years</em> and <em>hiv_aids</em> are very close to zero.</p>
+<p><strong>Individuals PCA Plot:</strong> This plot depicts all countries contained in the training dataset in a plane spanned by the first and second principal components. Each country is color-coded: The countries that have a larger life_expectancy than the overall average life_expectancy in dataset are coded as green, and the ones with a lower mean life_expectancy compared to the overall average are coded blue. It can be observed that most of the countries with the highest mean life_expectancy can be found in the lower right corner, while most countries with the lowest mean life_expectancy are located in the lower left corner. Apparently, a positive first principal component value tends to coincide with a larger than average mean life_expectancy, while a negative first principal component value tends to coincide with a lower than average mean life_expectancy.</p>
+</div>
+</div>
+<div id="models-and-analysis" class="section level1">
+<h1>Models and Analysis</h1>
+<p>Since the goal of this project is to build a model to predict <code>life_expectancy</code>, the dataset was partitioned into a training and a test dataset (3:1 ratio). Since the number of NA values was high, the <strong>knn imputation model</strong> was applied to estimate the missing values using nearest neighbors. The predictors that have ended up being in our models in the end were <em>year</em>, <em>status</em>, <em>adult_mortality</em>, <em>alcohol</em>, <em>percentage_expenditure</em>, <em>hepatitis_b</em>, <em>measles</em>, <em>bmi</em>, <em>under_five_deaths</em>, <em>polio</em>, <em>total_expenditure</em>, <em>diphtheria</em>, <em>hiv_aids</em>, <em>thinness_5_9_years</em>, <em>income_composition_of_resources</em>, and <em>schooling</em>.</p>
+<p>Then different model types were fitted using the <strong>caret</strong> package and the training dataset:</p>
+<ul>
+<li><p><strong>linear regression</strong>, <strong>ridge regression</strong>, <strong>lasso</strong>, <strong>principle component regression (PCR)</strong>, <strong>partial least squares (PLS)</strong> and <strong>elastic net</strong>, which all assume a linear relationship between the response and the predictors,</p></li>
+<li><p><strong>generalized additive model (GAM)</strong> and <strong>multivariate adaptive regression splines (MARS)</strong>, which can capture non-linear trends between the reponse and the predictors</p></li>
+<li><p><strong>tree-based methods</strong>, which are non-parametric, with no prior assumption about linearity or non-linearity between the response and the predictors. In particular, a <strong>CART tree</strong>, a <strong>conditional inference tree</strong> (stopping criterion is based on p-values), and the ensemble methods <strong>bagging</strong>, <strong>random forest</strong>, and <strong>boosting</strong>, which use a collection of several trees to improve predictive performance compared to single trees, were employed.</p></li>
+</ul>
+<p><strong>5-fold cross-validation</strong> was employed to obtain the cross-validated <span class="math inline">\(RMSE\)</span> error. This measure was used to first compare models within each model type, i.e., for choosing the tuning parameter(s) (the only exception to this was the linear regression model which does not have any tuning parameters), and then for the comparison between models in order to find the best model type among the model types considered.</p>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p>The figure below shows the median of the cross-validated <span class="math inline">\(RMSE\)</span> error for all aforementioned fitted models. It can be observed that the <strong>Boosting model</strong> is the best model among all and it is chosen as the final model, because it has the smallest value of median cross-validated <span class="math inline">\(RMSE\)</span> compared to others.</p>
+<p><img src="hana_final_project_files/figure-html/model_comparison-1.png" width="90%" /></p>
+<p><img src="hana_final_project_files/figure-html/varimp-1.png" width="90%" /></p>
+<p>The chosen Boosting model has 9500 number of trees, the interaction depth of 10, the shrinkage of 0.017, and the minimum number of samples in tree terminal nodes of 2.</p>
+<p>To evaluate the model’s performance on the test data, the <span class="math inline">\(RMSE_{test}\)</span> was evaluated which is 13.31%.</p>
+<p>The plot below shows the five most important variable in the final boosting model are <em>income_composition_of_resources</em>, <em>hiv_aids</em>, <em>adult_mortality</em>, <em>thinness_5_9_years</em>, and <em>schooling</em>.</p>
+</div>
+<div id="conclusions" class="section level1">
+<h1>Conclusions</h1>
+<p>Individual Conditional Expectation (ICE) plots display one line per instance that shows how the instance’s prediction changes when a feature changes. Also one average red line is also provided which is equivalent to Partial Dependence Plot (PDP).</p>
+<p>For example, the model suggests that <em>life_expectancy</em> first decreases slightly and then increases with an increase in <em>income_composition_of_resources</em>. Moreover, the model implies that, <em>life_expectancy</em> decreases with an increased <em>hiv_aids</em> death rate. Both results align with the observations made during EDA. Also, the relationship between <em>adult_mortality</em> and <em>life_expectancy</em> seems to jump up and down a bit at first, but, subsequently, decrease with increased <em>adult mortality</em>. This result partially agrees with the observations made during EDA, at which time we saw first a slight increase and a subsequent decrease in <em>life expectancy</em>. Finally, on average, an increase in the number of years of <em>schooling</em> tends to result, after a short decline, in a higher <em>life_expectancy</em>. Except for the decline in the beginning, this coincides with the observations made during EDA. <img src="hana_final_project_files/figure-html/ice-1.png" width="90%" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
